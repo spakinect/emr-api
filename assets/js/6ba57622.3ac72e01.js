@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkemr_api=self.webpackChunkemr_api||[]).push([[130],{1258:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-redoc","id":"plugin-redoc-0"}')}}]);
