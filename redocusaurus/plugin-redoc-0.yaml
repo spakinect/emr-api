@@ -181,12 +181,11 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /in-person:
     post:
-      summary: Create In-Person Visit
+      summary: Create a new in-person visit
       description: >-
-        Creates a new in-person visit in the Spakinect system. This endpoint is
-        designed for EMR systems that need to initiate intake workflows for
-        patients who will complete their forms on-site.
-      operationId: createInPersonVisit
+        Creates a new in-person visit for a patient. If a matching patient is
+        found by name and date of birth, their record is used; otherwise, a new
+        patient record is created.
       tags:
         - InPerson
       requestBody:
@@ -194,82 +193,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateInPersonRequest'
-            examples:
-              standard_intake:
-                summary: Standard in person visit creation
-                value:
-                  patient_details:
-                    first_name: Sarah
-                    last_name: Johnson
-                    dob: 03-15-1985
-                  location_id: loc_12345
-                  requested_treatments:
-                    - Botox Cosmetic
-                    - Restylane Lyft
-              single_treatment:
-                summary: In Person visit with single treatment
-                value:
-                  patient_details:
-                    first_name: Michael
-                    last_name: Rodriguez
-                    dob: 12-08-1990
-                  location_id: loc_67890
-                  requested_treatments:
-                    - Botox Cosmetic
+              $ref: '#/components/schemas/InPersonVisitCreationRequest'
       responses:
         '201':
-          description: In Person visit created successfully
+          description: In-person visit created successfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateInPersonResponse'
-              examples:
-                success:
-                  summary: Successful In Person visit creation
-                  value:
-                    success: true
-                    visit_id: gfe_abc123xyz789
-                    visit_link: https://client-test.spakinect.com/visit/gfe_abc123xyz789
+                $ref: '#/components/schemas/InPersonVisitCreationResponse'
         '400':
-          description: Bad request - Invalid input parameters
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                missing_patient_details:
-                  summary: Missing required patient details
-                  value:
-                    success: false
-                    error: >-
-                      Missing required patient details (first_name, last_name,
-                      dob)
-                invalid_dob_format:
-                  summary: Invalid date of birth format
-                  value:
-                    success: false
-                    error: Invalid date format. DoB must be in mm/dd/yyyy format
-                invalid_treatments:
-                  summary: Invalid treatments array
-                  value:
-                    success: false
-                    error: requested_treatments must be a non-empty array
-                no_valid_treatments:
-                  summary: No valid treatments found
-                  value:
-                    success: false
-                    error: >-
-                      No valid treatments found for the requested treatment
-                      names
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: >-
+            Bad Request: Missing required fields, invalid date format, or no
+            treatments found.
         '403':
-          $ref: '#/components/responses/Forbidden'
+          description: 'Forbidden: EMR is not authorized for this location.'
         '404':
-          $ref: '#/components/responses/NotFound'
+          description: 'Not Found: The specified location does not exist.'
         '500':
-          $ref: '#/components/responses/InternalServerError'
+          description: Internal server error.
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -309,58 +250,60 @@ components:
             - Botox Injection
             - Dermal Filler
       additionalProperties: false
-    CreateInPersonRequest:
+    InPersonVisitCreationRequest:
       type: object
+      title: In-person Visit Creation Request
       required:
         - patient_details
         - location_id
         - requested_treatments
       properties:
         patient_details:
-          $ref: '#/components/schemas/IntakePatientDetails'
-    IntakePatientDetails:
+          type: object
+          required:
+            - first_name
+            - last_name
+            - dob
+          properties:
+            first_name:
+              type: string
+              description: The patient's first name.
+            last_name:
+              type: string
+              description: The patient's last name.
+            dob:
+              type: string
+              description: The patient's date of birth in MM-DD-YYYY format.
+              example: 10-27-1990
+        location_id:
+          type: string
+          description: The ID of the location where the visit will take place.
+          example: loc_12345
+        requested_treatments:
+          type: array
+          description: A non-empty list of treatment names requested for the visit.
+          minItems: 1
+          items:
+            type: string
+          example:
+            - Botox Injection
+            - Dermal Filler
+    InPersonVisitCreationResponse:
       type: object
-      required:
-        - first_name
-        - last_name
-        - dob
-      properties:
-        first_name:
-          type: string
-          description: Patient's first name
-          example: Sarah
-          minLength: 1
-          maxLength: 100
-        last_name:
-          type: string
-          description: Patient's last name
-          example: Johnson
-          minLength: 1
-          maxLength: 100
-        dob:
-          type: string
-          description: Patient's date of birth in MM/DD/YYYY format
-          example: 03-15-1985
-    CreateInPersonResponse:
-      type: object
-      required:
-        - success
-        - visit_id
-        - visit_link
+      title: In-person Visit Creation Response
       properties:
         success:
           type: boolean
-          description: Indicates if the intake visit was created successfully
-          example: true
-        visit_id:
+          description: Indicates if the operation was successful.
+        gfe_id:
           type: string
-          description: Unique identifier for the created intake visit
-          example: gfe_abc123xyz789
+          description: The unique ID of the newly created visit.
+          example: gfe123
         visit_link:
           type: string
           format: uri
-          description: Direct link to the intake form that the patient can access
-          example: https://client-test.spakinect.com/visit/gfe_abc123xyz789
+          description: A direct URL to the visit intake form.
+          example: https:client-test.spakinect.com/visit/gfe123
     PatientDetails:
       type: object
       required:
