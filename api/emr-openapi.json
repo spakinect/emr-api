@@ -282,7 +282,7 @@
                     "patient_details": {
                       "first_name": "Sarah",
                       "last_name": "Johnson",
-                      "dob": "03/15/1985"
+                      "dob": "03-15-1985"
                     },
                     "location_id": "loc_12345",
                     "requested_treatments": [
@@ -297,7 +297,7 @@
                     "patient_details": {
                       "first_name": "Michael",
                       "last_name": "Rodriguez",
-                      "dob": "12/08/1990"
+                      "dob": "12-08-1990"
                     },
                     "location_id": "loc_67890",
                     "requested_treatments": [
@@ -433,6 +433,75 @@
           }
         },
         "additionalProperties": false
+      },
+      "CreateInPersonRequest": {
+        "type": "object",
+        "required": [
+          "patient_details",
+          "location_id",
+          "requested_treatments"
+        ],
+        "properties": {
+          "patient_details": {
+            "$ref": "#/components/schemas/IntakePatientDetails"
+          }
+        }
+      },
+      "IntakePatientDetails": {
+        "type": "object",
+        "required": [
+          "first_name",
+          "last_name",
+          "dob"
+        ],
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "description": "Patient's first name",
+            "example": "Sarah",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Patient's last name",
+            "example": "Johnson",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "dob": {
+            "type": "string",
+            "description": "Patient's date of birth in MM/DD/YYYY format",
+            "example": "03-15-1985",
+            "pattern": "^(0[1-9]|1[0-2])\\/(0[1-9]|[12][0-9]|3[01])\\/\\d{4}$"
+          }
+        }
+      },
+      "CreateInPersonResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "visit_id",
+          "visit_link"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates if the intake visit was created successfully",
+            "example": true
+          },
+          "visit_id": {
+            "type": "string",
+            "description": "Unique identifier for the created intake visit",
+            "example": "gfe_abc123xyz789"
+          },
+          "visit_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Direct link to the intake form that the patient can access",
+            "example": "https://client-test.spakinect.com/visit/gfe_abc123xyz789"
+          }
+        }
       },
       "PatientDetails": {
         "type": "object",
@@ -784,75 +853,6 @@
                   "error": "Internal Server Error during authentication."
                 }
               }
-            }
-          }
-        }
-      },
-      "CreateInPersonRequest": {
-        "type": "object",
-        "required": [
-          "patient_details",
-          "location_id",
-          "requested_treatments"
-        ],
-        "properties": {
-          "patient_details": {
-            "$ref": "#/components/schemas/IntakePatientDetails"
-          }
-        },
-        "IntakePatientDetails": {
-          "type": "object",
-          "required": [
-            "first_name",
-            "last_name",
-            "dob"
-          ],
-          "properties": {
-            "first_name": {
-              "type": "string",
-              "description": "Patient's first name",
-              "example": "Sarah",
-              "minLength": 1,
-              "maxLength": 100
-            },
-            "last_name": {
-              "type": "string",
-              "description": "Patient's last name",
-              "example": "Johnson",
-              "minLength": 1,
-              "maxLength": 100
-            },
-            "dob": {
-              "type": "string",
-              "description": "Patient's date of birth in MM/DD/YYYY format",
-              "example": "03/15/1985",
-              "pattern": "^(0[1-9]|1[0-2])\\/(0[1-9]|[12][0-9]|3[01])\\/\\d{4}$"
-            }
-          }
-        },
-        "CreateInPersonResponse": {
-          "type": "object",
-          "required": [
-            "success",
-            "visit_id",
-            "visit_link"
-          ],
-          "properties": {
-            "success": {
-              "type": "boolean",
-              "description": "Indicates if the intake visit was created successfully",
-              "example": true
-            },
-            "visit_id": {
-              "type": "string",
-              "description": "Unique identifier for the created intake visit",
-              "example": "gfe_abc123xyz789"
-            },
-            "visit_link": {
-              "type": "string",
-              "format": "uri",
-              "description": "Direct link to the intake form that the patient can access",
-              "example": "https://client-test.spakinect.com/visit/gfe_abc123xyz789"
             }
           }
         }
