@@ -9,7 +9,7 @@ const config = {
   // This is the domain your site will be deployed to
   url: 'https://spakinect.github.io',
   // This is the base path for your site, typically the repository name
-  baseUrl: '/emr',
+  baseUrl: '/emr-api',
   // GitHub pages deployment configuration
   organizationName: 'spakinect',
   projectName: 'emr',
@@ -42,7 +42,7 @@ const config = {
           // The path to your OpenAPI JSON file
           spec: 'api/emr-openapi.json',
           // The URL where your API docs will be displayed
-          route: '/api/docs/',
+          route: '/docs',
         }],
         theme: {
           // You can customize the color scheme here
@@ -67,15 +67,10 @@ const config = {
           // },
           {
             // This is a direct link to the Redocusaurus page
-            href: '/api/docs/',
+            href: '/docs',
             label: 'API Reference',
             position: 'left',
-          },
-          {
-            href: 'https://github.com/your-username/emr-api-docs',
-            label: 'GitHub',
-            position: 'right',
-          },
+          }
         ],
       },
     }),

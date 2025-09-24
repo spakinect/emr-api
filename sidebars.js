@@ -11,7 +11,7 @@ const sidebars = {
       type: 'link',
       label: 'API Reference',
       // The href must match the 'route' you defined in docusaurus.config.js
-      href: '/api/docs/',
+      href: '/docs',
     },
   ],
 };
