@@ -202,7 +202,7 @@ paths:
                   patient_details:
                     first_name: Sarah
                     last_name: Johnson
-                    dob: 03/15/1985
+                    dob: 03-15-1985
                   location_id: loc_12345
                   requested_treatments:
                     - Botox Cosmetic
@@ -213,7 +213,7 @@ paths:
                   patient_details:
                     first_name: Michael
                     last_name: Rodriguez
-                    dob: 12/08/1990
+                    dob: 12-08-1990
                   location_id: loc_67890
                   requested_treatments:
                     - Botox Cosmetic
@@ -596,7 +596,7 @@ components:
           dob:
             type: string
             description: Patient's date of birth in MM/DD/YYYY format
-            example: 03/15/1985
+            example: 03-15-1985
             pattern: ^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$
       CreateInPersonResponse:
         type: object
