@@ -1,41 +1,105 @@
-# Website
+# EMR API Documentation
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This repository contains the official documentation for the Spakinect EMR API. The documentation is built using [Docusaurus](https://docusaurus.io/) and powered by [Redocusaurus](https://redocusaurus.dev/) for elegant and interactive API endpoint displays.
 
-## Installation
+## 🚀 Getting Started
 
-```bash
-yarn
-```
+Follow these steps to set up and run the documentation site locally for development.
 
-## Local Development
+### Clone the Repository
 
 ```bash
-yarn start
+git clone https://github.com/spakinect/emr-api-docs.git
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+### Install Dependencies
 
-## Build
+Navigate to the project directory and install all required packages.
 
 ```bash
-yarn build
+cd emr-api-docs
+npm install
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+### Create API Specification Directory
 
-## Deployment
-
-Using SSH:
+The API documentation is generated from an OpenAPI JSON file. Create a directory to store your specification.
 
 ```bash
-USE_SSH=true yarn deploy
+mkdir api
 ```
 
-Not using SSH:
+### Add Your OpenAPI Specification
+
+Place your OpenAPI JSON file (e.g., `emr-openapi.json`) inside the newly created `api` directory.
+
+### Run the Development Server
+
+Start the local server to view the documentation.
 
 ```bash
-GIT_USER=<Your GitHub username> yarn deploy
+npm run start
+```
+This command will build your site and automatically open it in your browser.
+
+## 🌐 Hosting on GitHub Pages
+
+This guide assumes you have a GitHub repository named `emr-api-docs` under your account.
+
+### Configure Docusaurus
+
+Before deployment, you must update the `docusaurus.config.js` file with your GitHub repository details.
+
+```javascript
+// docusaurus.config.js
+const config = {
+  // ...
+  url: 'https://your-username.github.io',
+  baseUrl: '/emr-api-docs/',
+
+  organizationName: 'your-username', 
+  projectName: 'emr-api-docs', 
+  // ...
+};
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+### First-Time Deployment
+
+The `npm run deploy` command requires a `gh-pages` branch to exist on your repository. You must perform a manual deployment once to create it.
+
+1.  **Build the Project:** Generate the static site files.
+
+```bash
+npm run build
+```
+
+2.  **Deploy the Build:** Navigate into the build directory and push its contents to a new `gh-pages` branch.
+
+```bash
+cd build
+git init
+git add -A
+git commit -m "Initial gh-pages deployment"
+git push -f https://example@github.com/api.git HEAD:gh-pages
+```
+
+### Automated Deployment
+
+After the initial setup, you can deploy any changes with a single command. The `npm run deploy` command will automatically build your site and update the `gh-pages` branch.
+
+1.  **Set your Git user (for authentication):**
+
+```bash
+$env:GIT_USER="your-github-username"
+npm run deploy
+```
+
+2.  **Alternatively, use SSH for authentication (if configured):**
+
+```bash
+npm run deploy
+```
+
+### Configure GitHub Pages
+
+The final step is to tell GitHub to serve your site. Go to **Settings > Pages** in your repository and set the **Source** branch to `gh-pages`.
