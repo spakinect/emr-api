@@ -19,18 +19,26 @@ This key serves as a **secure authentication token** for your system, ensuring t
 
 ## Staging Environment
 
-For all your testing and development needs, you can use our **staging environment**. This environment is separate from our production system and is designed to allow you to test your integration without affecting live data.
+For all your testing and development needs, you can use our **staging environment**. This environment is separate from our production system and is designed to allow you to test your integration without affecting live data. Spakinect will provide you a Staging Account along with an  API key.
 
-You can use the following universal API key for all your testing purposes:
-
-`E4kBuUHs-uuU0-7f9x-ktzs-dkmG1ScItgU3`
 
 This key allows you to test all available endpoints, including those for retrieving treatments and creating at-home visits.
 
 ---
 
-## Creating an At Home Visit
+## Creating new Appointments / In-Person Visits
 
-To successfully test the "Create an At Home Visit" endpoint, you must provide the **`location_id`** of the specific medspa. This ID can be obtained directly from the **Spakinect client portal**.
+To successfully test the endpoints, you must provide the **`location_id`** of the specific medspa. This ID can be obtained directly from the **Spakinect client portal**.
 
-By using this location-specific ID, you can successfully test the endpoint and verify your system's integration workflow for at-home visits.
+By using this location-specific ID, you can successfully test the endpoint and verify your system's integration workflow.
+
+
+## Patient Matching Logic
+
+When creating a visit, Spakinect determines whether to **create a new patient** or **associate the visit with an existing patient** based on the following criteria:
+
+- **In-Person Visits:** Matching is done using a combination of **first name**, **last name**, and **date of birth**.  
+- **At-Home Visits:** Matching is done using a combination of **first name**, **last name**, and **email**.
+
+If a matching patient record already exists in the system, the visit will be linked to that patient.  
+Otherwise, a **new patient record** will be created automatically.
