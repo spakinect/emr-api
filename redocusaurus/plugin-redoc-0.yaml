@@ -237,7 +237,12 @@ components:
           example: loc_12345
         appointment_time:
           type: integer
-          description: Unix timestamp for the appointment date and time
+          description: >-
+            Unix timestamp for the appointment date and time with the medspa.
+            This is different from the appointment_time with the provider
+            (Spakinect). To schedule an appointment with Spakinect (with a
+            provider), the patient can do it from the email using the Schedule
+            link.
           example: 1640995200
           minimum: 1
         requested_treatments:
