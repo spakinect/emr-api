@@ -173,7 +173,7 @@
     "/visits/{gfe_id}": {
       "get": {
         "summary": "Get Visit Status",
-        "description": "Retrieves the current status and details of a Good Faith Exam (GFE) visit by ID. Only returns visits that the authenticated EMR has access to based on location permissions.",
+        "description": "Retrieves the current status and details of a Good Faith Exam (GFE) visit by ID. Only returns visits that the authenticated EMR has access to based on location permissions. When the visit status is \"Completed\", the response includes decision outcomes mapped to treatment names: approved_treatments, conditionally_approved_treatments, and deferred_treatments.",
         "operationId": "getVisitStatus",
         "tags": [
           "Appointments"
@@ -228,6 +228,15 @@
                         "status": "Completed",
                         "requested_treatments": [
                           "Botox Injection"
+                        ],
+                        "approved_treatments": [
+                          "Botox Injection"
+                        ],
+                        "conditionally_approved_treatments": [
+                          "Dermal Filler"
+                        ],
+                        "deferred_treatments": [
+                          "Chemical Peel"
                         ],
                         "patient_details": {
                           "name": "Jane Smith",
@@ -331,7 +340,7 @@
           },
           "appointment_time": {
             "type": "integer",
-            "description": "Unix timestamp for the appointment date and time",
+            "description": "Unix timestamp of the appointment date and time with the medspa. This is different from the appointment time with Spakinect (provider). To schedule an appointment with a Spakinect provider, the patient can use the Schedule link in the email sent from Spakinect.",
             "example": 1640995200,
             "minimum": 1
           },
@@ -548,6 +557,24 @@
           },
           "patient_details": {
             "$ref": "#/components/schemas/VisitPatientDetails"
+          },
+          "approved_treatments": {
+            "type": "array",
+            "description": "Present only when status is Completed. Names of treatments approved.",
+            "items": { "type": "string" },
+            "example": ["Botox Injection"]
+          },
+          "conditionally_approved_treatments": {
+            "type": "array",
+            "description": "Present only when status is Completed. Names of treatments approved with conditions.",
+            "items": { "type": "string" },
+            "example": ["Dermal Filler"]
+          },
+          "deferred_treatments": {
+            "type": "array",
+            "description": "Present only when status is Completed. Names of treatments deferred.",
+            "items": { "type": "string" },
+            "example": ["Chemical Peel"]
           }
         },
         "additionalProperties": false
