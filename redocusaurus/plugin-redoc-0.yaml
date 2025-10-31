@@ -127,6 +127,7 @@ paths:
       operationId: getVisitStatus
       tags:
         - Appointments
+        - InPerson
       parameters:
         - name: gfe_id
           in: path
@@ -163,6 +164,24 @@ paths:
                         first_name: Jane
                         last_name: Smith
                         email: jane.smith@example.com
+                in_person_completed_status:
+                  summary: Completed in-person visit
+                  value:
+                    success: true
+                    data:
+                      gfe_id: gfe_inperson_123
+                      status: Completed
+                      requested_treatments:
+                        - Dermal Filler
+                      approved_treatments:
+                        - Dermal Filler
+                      conditionally_approved_treatments: []
+                      deferred_treatments: []
+                      patient_details:
+                        name: Alex Johnson
+                        first_name: Alex
+                        last_name: Johnson
+                        email: alex.johnson@example.com
                 processing_status:
                   summary: Visit in processing status
                   value:
