@@ -224,7 +224,12 @@ paths:
   /webhooks:
     post:
       summary: Register Webhook URL
-      description: Registers or updates the webhook URL for the authenticated EMR.
+      description: >-
+        Registers or updates the webhook URL for the authenticated EMR. If
+        registered, when a GFE is completed, a POST request will be sent to that
+        URL containing information about the GFE, including patient details, GFE
+        ID, and the list of approved, conditionally approved, and deferred
+        treatments.
       operationId: registerWebhook
       tags:
         - Webhooks
