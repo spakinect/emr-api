@@ -189,6 +189,49 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /appointments/{gfe_id}/cancel:
+    patch:
+      summary: Cancel Appointment
+      description: >-
+        Cancels a Good Faith Exam (GFE) appointment by ID. Only visits with
+        status "Processing", "Scheduled", or "Not Completed" can be cancelled.
+        The visit status will be updated to "Cancelled by client". Only
+        appointments that the authenticated EMR has access to based on location
+        permissions can be cancelled.
+      operationId: cancelAppointment
+      tags:
+        - Appointments
+      parameters:
+        - name: gfe_id
+          in: path
+          required: true
+          description: The unique identifier of the GFE appointment to cancel
+          schema:
+            type: string
+            example: gfe_abc123xyz789
+      responses:
+        '200':
+          description: Appointment cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelAppointmentResponse'
+              examples:
+                success:
+                  summary: Successful cancellation
+                  value:
+                    gfe_id: gfe_abc123xyz789
+                    status: Cancelled by client
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /in-person:
     post:
       summary: Create a new in-person visit
@@ -458,6 +501,21 @@ components:
           type: string
           description: Unique identifier for the created GFE appointment
           example: gfe_abc123xyz789
+      additionalProperties: false
+    CancelAppointmentResponse:
+      type: object
+      required:
+        - gfe_id
+        - status
+      properties:
+        gfe_id:
+          type: string
+          description: Unique identifier for the cancelled GFE appointment
+          example: gfe_abc123xyz789
+        status:
+          type: string
+          description: The updated status of the appointment after cancellation
+          example: Cancelled by client
       additionalProperties: false
     TreatmentsResponse:
       type: object
