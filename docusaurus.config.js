@@ -43,7 +43,12 @@ const config = {
           spec: 'api/emr-openapi.json',
           // The URL where your API docs will be displayed
           route: '/docs',
-        }],
+        },
+        {
+          spec: 'docs/webhook.md',
+          route: '/webhook',
+        }
+      ],
         theme: {
           // You can customize the color scheme here
           primaryColor: '#4A90E2',
@@ -58,18 +63,17 @@ const config = {
       navbar: {
         title: 'Overview',
         items: [
-          // {
-          //   // This is a link to your main documentation section (which is now the homepage)
-          //   type: 'doc',
-          //   docId: 'intro',
-          //   position: 'left',
-          //   label: 'Documentation',
-          // },
           {
             // This is a direct link to the Redocusaurus page
             href: '/docs',
             label: 'API Reference',
             position: 'left',
+          },
+          {
+            // href: '/docs',
+            href: '/webhook',
+            label: 'Webhook',
+            // position: 'left',
           }
         ],
       },
