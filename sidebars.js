@@ -8,12 +8,11 @@ const sidebars = {
     // 'intro',
     {
       // This is a simple link to the API docs page
-      type: 'link',
-      label: 'API Reference',
+      type: "link",
+      label: "API Reference",
       // The href must match the 'route' you defined in docusaurus.config.js
-      href: '/docs',
+      href: "/docs",
     },
-    // 'webhook',
   ],
 };
 
