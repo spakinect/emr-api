@@ -268,11 +268,19 @@ paths:
     post:
       summary: Register Webhook URL
       description: >-
-        Registers or updates the webhook URL for the authenticated EMR. If
-        registered, when a GFE is completed, a POST request will be sent to that
-        URL containing information about the GFE, including patient details, GFE
-        ID, and the list of approved, conditionally approved, and deferred
-        treatments.
+        Registers or updates the webhook URL for the authenticated EMR.
+
+
+        When a GFE is completed, Spakinect will send a POST request to the
+        registered URL with the payload described in `VisitCompletedWebhook`.
+
+
+        - Event: `visit.completed`
+
+        - Headers: `Content-Type: application/json`, `User-Agent:
+        Spakinect-Webhook/1.0`, and if configured `X-Webhook-Secret: <secret>`.
+
+        - Schema: `#/components/schemas/VisitCompletedWebhook`
       operationId: registerWebhook
       tags:
         - Webhooks
@@ -426,7 +434,7 @@ components:
             dob:
               type: string
               description: The patient's date of birth in MM-DD-YYYY format.
-              example: 10-27-1990
+              example: 10/27/1990
         location_id:
           type: string
           description: The ID of the location where the visit will take place.
@@ -638,6 +646,121 @@ components:
           format: email
           description: Patient's email address
           example: john.doe@example.com
+      additionalProperties: false
+    VisitCompletedWebhook:
+      type: object
+      title: Visit Completed Webhook
+      description: Payload delivered to the EMR webhook URL when a GFE visit is completed.
+      required:
+        - event
+        - timestamp
+        - success
+        - data
+      properties:
+        event:
+          type: string
+          description: The webhook event type.
+          enum:
+            - visit.completed
+          example: visit.completed
+        timestamp:
+          type: integer
+          description: Unix timestamp (milliseconds) when the webhook was generated.
+          example: 1714675200000
+        success:
+          type: boolean
+          description: Indicates if the visit data retrieval was successful.
+          example: true
+        data:
+          $ref: '#/components/schemas/VisitCompletedWebhookData'
+      example:
+        event: visit.completed
+        timestamp: 1714675200000
+        success: true
+        data:
+          location_id: loc_12345
+          gfe_id: gfe_abc123xyz789
+          status: Completed
+          pdf_link: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
+          requested_treatments:
+            - Botox Injection
+            - Dermal Filler
+          approved_treatments:
+            - Botox Injection
+          conditionally_approved_treatments:
+            - Dermal Filler
+          deferred_treatments: []
+          patient_details:
+            name: Jane Smith
+            first_name: Jane
+            last_name: Smith
+            email: jane.smith@example.com
+    VisitCompletedWebhookData:
+      type: object
+      title: Visit Completed Webhook Data
+      required:
+        - location_id
+        - gfe_id
+        - status
+        - requested_treatments
+        - patient_details
+      properties:
+        location_id:
+          type: string
+          description: The ID of the location where the visit took place.
+          example: loc_12345
+        gfe_id:
+          type: string
+          description: Unique identifier for the GFE visit.
+          example: gfe_abc123xyz789
+        status:
+          type: string
+          description: Final status of the visit.
+          enum:
+            - Completed
+          example: Completed
+        pdf_link:
+          type: string
+          format: uri
+          description: URL to the generated GFE PDF, if available.
+          example: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
+        requested_treatments:
+          type: array
+          description: List of treatments originally requested for this visit.
+          items:
+            type: string
+          example:
+            - Botox Injection
+            - Dermal Filler
+        patient_details:
+          $ref: '#/components/schemas/VisitPatientDetails'
+        approved_treatments:
+          type: array
+          description: >-
+            Names of treatments approved by the provider. Present when status is
+            Completed.
+          items:
+            type: string
+          example:
+            - Botox Injection
+        conditionally_approved_treatments:
+          type: array
+          description: >-
+            Names of treatments that are conditionally approved. Present when
+            status is Completed.
+          items:
+            type: string
+          example:
+            - Dermal Filler
+        deferred_treatments:
+          type: array
+          description: >-
+            Names of treatments deferred to a later time. Present when status is
+            Completed.
+          items:
+            type: string
+          example:
+            - Chemical Peel
       additionalProperties: false
     ErrorResponse:
       type: object
