@@ -567,7 +567,7 @@
               "dob": {
                 "type": "string",
                 "description": "The patient's date of birth in MM-DD-YYYY format.",
-                "example": "10-27-1990"
+                "example": "10/27/1990"
               }
             }
           },

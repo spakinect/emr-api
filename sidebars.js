@@ -6,6 +6,7 @@ const sidebars = {
   tutorialSidebar: [
     // This item points to your overview.md file
     // 'intro',
+    'webhooks',
     {
       // This is a simple link to the API docs page
       type: "link",

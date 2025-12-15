@@ -61,6 +61,11 @@ const config = {
         title: "Overview",
         items: [
           {
+            to: "/webhooks",
+            label: "Webhooks",
+            position: "left",
+          },
+          {
             // This is a direct link to the Redocusaurus page
             href: "/docs",
             label: "API Reference",
