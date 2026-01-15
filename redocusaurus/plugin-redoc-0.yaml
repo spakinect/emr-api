@@ -114,6 +114,85 @@ paths:
                     data: []
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /gfes/{location_id}:
+    get:
+      summary: Get All GFEs by Location
+      description: >-
+        Retrieves all Good Faith Exam (GFE) visits for a specific location. Only
+        returns visits that the authenticated EMR has access to based on
+        location permissions. When visit status is "Completed", each visit
+        includes decision outcomes mapped to treatment names:
+        approved_treatments, conditionally_approved_treatments, and
+        deferred_treatments.
+      operationId: getAllGFEsByLocation
+      tags:
+        - GFEs
+      parameters:
+        - name: location_id
+          in: path
+          required: true
+          description: The unique identifier of the location
+          schema:
+            type: string
+            example: loc_12345
+      responses:
+        '200':
+          description: List of GFEs retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GFEsByLocationResponse'
+              examples:
+                gfes_list:
+                  summary: List of GFEs for location
+                  value:
+                    success: true
+                    location_id: loc_12345
+                    count: 2
+                    gfes:
+                      - gfe_id: gfe_abc123xyz789
+                        status: Completed
+                        requested_treatments:
+                          - Botox Injection
+                          - Dermal Filler
+                        approved_treatments:
+                          - Botox Injection
+                        conditionally_approved_treatments:
+                          - Dermal Filler
+                        deferred_treatments: []
+                        patient_details:
+                          name: Jane Smith
+                          first_name: Jane
+                          last_name: Smith
+                          dob: 05-15-1985
+                          email: jane.smith@example.com
+                      - gfe_id: gfe_def456uvw012
+                        status: Processing
+                        requested_treatments:
+                          - Chemical Peel
+                        patient_details:
+                          name: John Doe
+                          first_name: John
+                          last_name: Doe
+                          dob: 10-27-1990
+                          email: john.doe@example.com
+                empty_list:
+                  summary: No GFEs found for location
+                  value:
+                    success: true
+                    location_id: loc_12345
+                    count: 0
+                    gfes: []
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /visits/{gfe_id}:
     get:
       summary: Get Visit Status
@@ -163,6 +242,7 @@ paths:
                         name: Jane Smith
                         first_name: Jane
                         last_name: Smith
+                        dob: 05-15-1985
                         email: jane.smith@example.com
                 processing_status:
                   summary: Visit in processing status
@@ -178,6 +258,7 @@ paths:
                         name: John Doe
                         first_name: John
                         last_name: Doe
+                        dob: 10-27-1990
                         email: john.doe@example.com
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -564,6 +645,33 @@ components:
         data:
           $ref: '#/components/schemas/VisitData'
       additionalProperties: false
+    GFEsByLocationResponse:
+      type: object
+      required:
+        - success
+        - location_id
+        - count
+        - gfes
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the request was processed successfully
+          example: true
+        location_id:
+          type: string
+          description: The unique identifier of the location
+          example: loc_12345
+        count:
+          type: integer
+          description: The number of GFEs returned for this location
+          example: 2
+          minimum: 0
+        gfes:
+          type: array
+          description: List of GFE visits for the location
+          items:
+            $ref: '#/components/schemas/VisitData'
+      additionalProperties: false
     VisitData:
       type: object
       required:
@@ -646,6 +754,11 @@ components:
           format: email
           description: Patient's email address
           example: john.doe@example.com
+        dob:
+          type: string
+          description: Patient's date of birth in MM-DD-YYYY format
+          example: 10-27-1990
+          pattern: ^\d{2}-\d{2}-\d{4}$
       additionalProperties: false
     VisitCompletedWebhook:
       type: object
@@ -694,6 +807,7 @@ components:
             name: Jane Smith
             first_name: Jane
             last_name: Smith
+            dob: 05-15-1985
             email: jane.smith@example.com
     VisitCompletedWebhookData:
       type: object
@@ -874,6 +988,11 @@ components:
                 success: false
                 error: Bad Request
                 message: location_id cannot be empty
+            missing_location_id_path:
+              summary: Missing location_id path parameter
+              value:
+                success: false
+                error: location_id path parameter is required
     Unauthorized:
       description: Unauthorized - Invalid or missing API key
       content:
@@ -958,6 +1077,8 @@ components:
   tags:
     - name: Appointments
       description: Operations for creating and managing Good Faith Exam appointments
+    - name: GFEs
+      description: Operations for retrieving Good Faith Exam visits by location
     - name: Treatments
       description: Operations for retrieving available medical treatments
     - name: InPerson
