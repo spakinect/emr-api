@@ -160,6 +160,7 @@ paths:
                         conditionally_approved_treatments:
                           - Dermal Filler
                         deferred_treatments: []
+                        pdf_link: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
                         patient_details:
                           name: Jane Smith
                           first_name: Jane
@@ -238,6 +239,7 @@ paths:
                         - Dermal Filler
                       deferred_treatments:
                         - Chemical Peel
+                      pdf_link: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
                       patient_details:
                         name: Jane Smith
                         first_name: Jane
@@ -728,6 +730,13 @@ components:
             type: string
           example:
             - Chemical Peel
+        pdf_link:
+          type: string
+          format: uri
+          description: >-
+            URL to the generated GFE PDF, if available. Present only when a PDF
+            has been generated for the visit.
+          example: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
       additionalProperties: false
     VisitPatientDetails:
       type: object
