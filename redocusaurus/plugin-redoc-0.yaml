@@ -354,6 +354,11 @@ paths:
         Registers or updates the webhook URL for the authenticated EMR.
 
 
+        **Note:** To receive webhook events, a location must be subscribed to
+        the EMR using the Location subscription endpoint (`POST
+        /subscriptions`).
+
+
         When a GFE is completed, Spakinect will send a POST request to the
         registered URL with the payload described in `VisitCompletedWebhook`.
 
