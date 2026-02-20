@@ -547,7 +547,7 @@
     "/subscriptions": {
       "post": {
         "summary": "Subscribe to Location",
-        "description": "Subscribes the authenticated EMR to a location. This adds the location to the EMR's subscribed locations list.",
+        "description": "Subscribes the authenticated EMR to a location. This adds the location to the EMR's subscribed locations list. This endpoint is required to receive webhook events for the location.",
         "operationId": "subscribeToLocation",
         "tags": [
           "Subscriptions"
