@@ -483,7 +483,7 @@
     "/webhooks": {
       "post": {
         "summary": "Register Webhook URL",
-        "description": "Registers or updates the webhook URL for the authenticated EMR.\n\nWhen a GFE is completed, Spakinect will send a POST request to the registered URL with the payload described in `VisitCompletedWebhook`.\n\n- Event: `visit.completed`\n- Headers: `Content-Type: application/json`, `User-Agent: Spakinect-Webhook/1.0`, and if configured `X-Webhook-Secret: <secret>`.\n- Schema: `#/components/schemas/VisitCompletedWebhook`",
+        "description": "Registers or updates the webhook URL for the authenticated EMR.\n\n**Note:** To receive webhook events, a location must be subscribed to the EMR using the Location subscription endpoint (`POST /subscriptions`).\n\nWhen a GFE is completed, Spakinect will send a POST request to the registered URL with the payload described in `VisitCompletedWebhook`.\n\n- Event: `visit.completed`\n- Headers: `Content-Type: application/json`, `User-Agent: Spakinect-Webhook/1.0`, and if configured `X-Webhook-Secret: <secret>`.\n- Schema: `#/components/schemas/VisitCompletedWebhook`",
         "operationId": "registerWebhook",
         "tags": [
           "Webhooks"

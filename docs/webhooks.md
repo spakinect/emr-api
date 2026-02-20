@@ -8,6 +8,8 @@ sidebar_position: 2
 
 Spakinect can send webhook notifications to your EMR system when specific events occur. This allows you to receive real-time updates about visits and treatments without polling the API.
 
+> **Note:** To receive webhook events, a location must be subscribed to the EMR using the Location subscription endpoint (`POST /subscriptions`).
+
 ---
 
 
