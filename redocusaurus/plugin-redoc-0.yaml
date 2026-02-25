@@ -74,11 +74,39 @@ paths:
     get:
       summary: Get Available Treatments
       description: >-
-        Retrieves a list of all available treatments that can be requested in
-        appointments.
+        Retrieves treatments. Returns all available treatments by default, or
+        favorite treatments when type=favorites and location_id are provided.
+
+
+        **URLs:**
+
+        - All treatments: `GET /treatments`
+
+        - Favorite treatments: `GET
+        /treatments?type=favorites&location_id=<location_id>`
       operationId: getTreatments
       tags:
         - Treatments
+      parameters:
+        - name: type
+          in: query
+          required: false
+          description: >-
+            When set to 'favorites', returns the client's favorite treatments
+            for the given location. Requires location_id.
+          schema:
+            type: string
+            enum:
+              - favorites
+        - name: location_id
+          in: query
+          required: false
+          description: >-
+            Required when type=favorites. The unique identifier of the location.
+            Used to resolve the client and fetch their favorite treatments.
+          schema:
+            type: string
+            example: loc_12345
       responses:
         '200':
           description: List of available treatments
@@ -88,7 +116,7 @@ paths:
                 $ref: '#/components/schemas/TreatmentsResponse'
               examples:
                 treatments_list:
-                  summary: Available treatments
+                  summary: All available treatments (GET /treatments)
                   value:
                     data:
                       - id: treatment_001
@@ -97,21 +125,47 @@ paths:
                         name: Dermal Filler
                       - id: treatment_003
                         name: Chemical Peel
+                favorites_list:
+                  summary: >-
+                    Favorite treatments (GET
+                    /treatments?type=favorites&location_id=...)
+                  value:
+                    data:
+                      - id: treatment_001
+                        name: Botox Injection
+                      - id: treatment_002
+                        name: Dermal Filler
+                    source: favorites
+        '400':
+          description: Bad request - Missing location_id when type=favorites
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missing_location_id_favorites:
+                  summary: location_id required for favorites
+                  value:
+                    success: false
+                    error: location_id is required when requesting favorites
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
-          description: No treatments found
+          description: >-
+            Location not found (when type=favorites). For all treatments, empty
+            list returns 200 with data: [].
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TreatmentsResponse'
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
-                empty_list:
-                  summary: No treatments available
+                location_not_found:
+                  summary: Location not found when requesting favorites
                   value:
-                    data: []
+                    success: false
+                    error: Location not found
         '500':
           $ref: '#/components/responses/InternalServerError'
   /gfes/{location_id}:
@@ -624,6 +678,14 @@ components:
           description: List of available treatments
           items:
             $ref: '#/components/schemas/Treatment'
+        source:
+          type: string
+          description: >-
+            Present when type=favorites. Indicates the treatments are from the
+            client's favorites configuration.
+          enum:
+            - favorites
+          example: favorites
       additionalProperties: false
     Treatment:
       type: object
