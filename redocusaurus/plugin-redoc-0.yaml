@@ -480,7 +480,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /subscriptions:
     post:
-      summary: Subscribe to Locationnnn
+      summary: Subscribe to Location
       description: >
         Subscribes the authenticated EMR to a location. This adds the location
         to the EMR's subscribed locations list. This endpoint is required to
@@ -496,7 +496,7 @@ paths:
               $ref: '#/components/schemas/SubscriptionRequest'
             examples:
               location_subscription:
-                summary: Subscribe to locationnnn
+                summary: Subscribe to location
                 value:
                   location_id: loc_12345
       responses:
