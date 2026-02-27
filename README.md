@@ -73,7 +73,7 @@ The `npm run deploy` command requires a `gh-pages` branch to exist on your repos
 npm run build
 ```
 
-2.  **Deploy the Build:** Navigate into the build directory and push its contents to a new `gh-pages` branch.
+2.  **Deploy the Build:** Navigate into the build directory. Then push its contents to a new `gh-pages` branch.
 
 ```bash
 cd build
