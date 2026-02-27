@@ -1,0 +1,106 @@
+VisitData:
+  type: object
+  required:
+    - gfe_id
+    - status
+    - requested_treatments
+    - patient_details
+  properties:
+    gfe_id:
+      type: string
+      description: Unique identifier for the GFE visit
+      example: gfe_abc123xyz789
+    status:
+      type: string
+      description: Current status of the visit
+      enum:
+        - Processing
+        - Pending Review
+        - Approved
+        - Completed
+        - Cancelled
+        - Rejected
+      example: Processing
+    requested_treatments:
+      type: array
+      description: List of treatments requested for this visit
+      items:
+        type: string
+      example:
+        - Botox Injection
+        - Dermal Filler
+    patient_details:
+      $ref: ./patient.yaml#/VisitPatientDetails
+    approved_treatments:
+      type: array
+      description: Present only when status is Completed. Names of treatments approved.
+      items:
+        type: string
+      example:
+        - Botox Injection
+    conditionally_approved_treatments:
+      type: array
+      description: >
+        Present only when status is Completed. Names of treatments approved
+        with conditions.
+      items:
+        type: string
+      example:
+        - Dermal Filler
+    deferred_treatments:
+      type: array
+      description: Present only when status is Completed. Names of treatments deferred.
+      items:
+        type: string
+      example:
+        - Chemical Peel
+    pdf_link:
+      type: string
+      format: uri
+      description: >
+        URL to the generated GFE PDF, if available. Present only when a PDF
+        has been generated for the visit.
+      example: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
+  additionalProperties: false
+
+VisitStatusResponse:
+  type: object
+  required:
+    - success
+    - data
+  properties:
+    success:
+      type: boolean
+      description: Indicates if the request was processed successfully
+      example: true
+    data:
+      $ref: "#/VisitData"
+  additionalProperties: false
+
+GFEsByLocationResponse:
+  type: object
+  required:
+    - success
+    - location_id
+    - count
+    - gfes
+  properties:
+    success:
+      type: boolean
+      description: Indicates if the request was processed successfully
+      example: true
+    location_id:
+      type: string
+      description: The unique identifier of the location
+      example: loc_12345
+    count:
+      type: integer
+      description: The number of GFEs returned for this location
+      example: 2
+      minimum: 0
+    gfes:
+      type: array
+      description: List of GFE visits for the location
+      items:
+        $ref: "#/VisitData"
+  additionalProperties: false

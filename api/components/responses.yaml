@@ -1,0 +1,131 @@
+BadRequest:
+  description: Bad request - Invalid input parameters
+  content:
+    application/json:
+      schema:
+        $ref: "./schemas/common.yaml#/ErrorResponse"
+      examples:
+        missing_required_fields:
+          summary: Missing required fields
+          value:
+            success: false
+            error: Missing required patient details
+        invalid_gfe_id:
+          summary: Invalid GFE ID format
+          value:
+            success: false
+            error: GFE ID is required
+        missing_webhook_url:
+          summary: Missing webhook URL
+          value:
+            success: false
+            error: Bad Request
+            message: URL field is required in request body
+        invalid_webhook_url:
+          summary: Invalid webhook URL format
+          value:
+            success: false
+            error: Bad Request
+            message: Invalid URL format
+        missing_location_id:
+          summary: Missing location ID
+          value:
+            success: false
+            error: Bad Request
+            message: location_id field is required in request body
+        empty_location_id:
+          summary: Empty location ID
+          value:
+            success: false
+            error: Bad Request
+            message: location_id cannot be empty
+        missing_location_id_path:
+          summary: Missing location_id path parameter
+          value:
+            success: false
+            error: location_id path parameter is required
+
+Unauthorized:
+  description: Unauthorized - Invalid or missing API key
+  content:
+    application/json:
+      schema:
+        $ref: "./schemas/common.yaml#/ErrorResponse"
+      examples:
+        missing_api_key:
+          summary: Missing API key
+          value:
+            success: false
+            error: "Unauthorized: API key is missing."
+        invalid_api_key:
+          summary: Invalid API key
+          value:
+            success: false
+            error: "Forbidden: Invalid API key."
+
+Forbidden:
+  description: Forbidden - EMR not authorized for requested resource
+  content:
+    application/json:
+      schema:
+        $ref: "./schemas/common.yaml#/ErrorResponse"
+      examples:
+        location_access_denied:
+          summary: No access to location
+          value:
+            success: false
+            error: EMR is not authorized for this location
+        gfe_access_denied:
+          summary: No access to GFE
+          value:
+            success: false
+            error: EMR is not authorized to access this GFE
+
+NotFound:
+  description: Resource not found
+  content:
+    application/json:
+      schema:
+        $ref: "./schemas/common.yaml#/ErrorResponse"
+      examples:
+        gfe_not_found:
+          summary: GFE not found
+          value:
+            success: false
+            error: GFE not found
+        location_not_found:
+          summary: Location not found
+          value:
+            success: false
+            error: Not Found
+            message: Location not found
+        emr_not_found:
+          summary: EMR document not found
+          value:
+            success: false
+            error: Not Found
+            message: EMR document not found
+        endpoint_not_found:
+          summary: Endpoint not found
+          value:
+            success: false
+            error: Not found
+            message: EMR endpoint /invalid-path not found
+
+InternalServerError:
+  description: Internal server error
+  content:
+    application/json:
+      schema:
+        $ref: "./schemas/common.yaml#/ErrorResponse"
+      examples:
+        server_error:
+          summary: Generic server error
+          value:
+            success: false
+            error: Internal server error
+        auth_error:
+          summary: Authentication service error
+          value:
+            success: false
+            error: Internal Server Error during authentication.

@@ -1,0 +1,109 @@
+openapi: 3.0.3
+
+info:
+  title: Spakinect EMR Integration API
+  description: >
+    API for External Electronic Medical Record (EMR) systems to integrate with
+    Spakinect telemedicine platform. Provides endpoints for managing appointments,
+    retrieving treatments, and checking visit statuses.
+  version: 1.0.0
+  contact:
+    name: Spakinect Support
+    email: support@spakinect.com
+
+servers:
+  - url: https://us-central1-spakinect-app.cloudfunctions.net/emr
+    description: Production Server
+  - url: https://us-central1-spakinect-staging.cloudfunctions.net/emr
+    description: Staging Server
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /appointments:
+    $ref: ./paths/appointments.yaml
+  /treatments:
+    $ref: ./paths/treatments.yaml
+  /gfes/{location_id}:
+    $ref: ./paths/gfes.yaml
+  /visits/{gfe_id}:
+    $ref: ./paths/visits.yaml
+  /appointments/{gfe_id}/cancel:
+    $ref: ./paths/cancel.yaml
+  /in-person:
+    $ref: ./paths/in-person.yaml
+  /webhooks:
+    $ref: ./paths/webhooks.yaml
+  /subscriptions:
+    $ref: ./paths/subscriptions.yaml
+
+components:
+  securitySchemes:
+    $ref: ./components/security.yaml
+
+  schemas:
+    CreateAppointmentRequest:
+      $ref: ./components/schemas/appointment.yaml#/CreateAppointmentRequest
+    CreateAppointmentResponse:
+      $ref: ./components/schemas/appointment.yaml#/CreateAppointmentResponse
+    CancelAppointmentResponse:
+      $ref: ./components/schemas/appointment.yaml#/CancelAppointmentResponse
+    PatientDetails:
+      $ref: ./components/schemas/patient.yaml#/PatientDetails
+    VisitPatientDetails:
+      $ref: ./components/schemas/patient.yaml#/VisitPatientDetails
+    Treatment:
+      $ref: ./components/schemas/treatment.yaml#/Treatment
+    TreatmentsResponse:
+      $ref: ./components/schemas/treatment.yaml#/TreatmentsResponse
+    VisitData:
+      $ref: ./components/schemas/visit.yaml#/VisitData
+    VisitStatusResponse:
+      $ref: ./components/schemas/visit.yaml#/VisitStatusResponse
+    GFEsByLocationResponse:
+      $ref: ./components/schemas/visit.yaml#/GFEsByLocationResponse
+    InPersonVisitCreationRequest:
+      $ref: ./components/schemas/in-person.yaml#/InPersonVisitCreationRequest
+    InPersonVisitCreationResponse:
+      $ref: ./components/schemas/in-person.yaml#/InPersonVisitCreationResponse
+    ErrorResponse:
+      $ref: ./components/schemas/common.yaml#/ErrorResponse
+    WebhookRegistrationRequest:
+      $ref: ./components/schemas/webhook.yaml#/WebhookRegistrationRequest
+    WebhookRegistrationResponse:
+      $ref: ./components/schemas/webhook.yaml#/WebhookRegistrationResponse
+    VisitCompletedWebhook:
+      $ref: ./components/schemas/webhook.yaml#/VisitCompletedWebhook
+    VisitCompletedWebhookData:
+      $ref: ./components/schemas/webhook.yaml#/VisitCompletedWebhookData
+    SubscriptionRequest:
+      $ref: ./components/schemas/common.yaml#/SubscriptionRequest
+    SubscriptionResponse:
+      $ref: ./components/schemas/common.yaml#/SubscriptionResponse
+
+  responses:
+    BadRequest:
+      $ref: ./components/responses.yaml#/BadRequest
+    Unauthorized:
+      $ref: ./components/responses.yaml#/Unauthorized
+    Forbidden:
+      $ref: ./components/responses.yaml#/Forbidden
+    NotFound:
+      $ref: ./components/responses.yaml#/NotFound
+    InternalServerError:
+      $ref: ./components/responses.yaml#/InternalServerError
+
+tags:
+  - name: Appointments
+    description: Operations for creating and managing Good Faith Exam appointments
+  - name: GFEs
+    description: Operations for retrieving Good Faith Exam visits by location
+  - name: Treatments
+    description: Operations for retrieving available medical treatments
+  - name: InPerson
+    description: Operations for creating and managing in-person intake visits
+  - name: Webhooks
+    description: Operations for registering and managing webhook URLs for events.
+  - name: Subscriptions
+    description: Operations for managing location subscriptions

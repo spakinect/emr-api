@@ -29,9 +29,39 @@ The API documentation is generated from an OpenAPI JSON file. Create a directory
 mkdir api
 ```
 
-### Add Your OpenAPI Specification
+### API Specification Structure
 
-Place your OpenAPI JSON file (e.g., `emr-openapi.json`) inside the newly created `api` directory.
+The OpenAPI spec is split into modular YAML files for maintainability:
+
+```
+api/
+├── emr-openapi.yaml          # Root file - edit this to add paths/schemas
+├── emr-openapi.json          # Bundled output (auto-generated, do not edit)
+├── paths/                    # One file per endpoint
+│   ├── appointments.yaml
+│   ├── treatments.yaml
+│   ├── gfes.yaml
+│   ├── visits.yaml
+│   ├── cancel.yaml
+│   ├── in-person.yaml
+│   ├── webhooks.yaml
+│   └── subscriptions.yaml
+└── components/
+    ├── security.yaml
+    ├── responses.yaml        # Shared error responses
+    └── schemas/              # Schemas grouped by domain
+        ├── appointment.yaml
+        ├── patient.yaml
+        ├── treatment.yaml
+        ├── visit.yaml
+        ├── in-person.yaml
+        ├── webhook.yaml
+        └── common.yaml
+```
+
+- **Edit** the YAML files in `api/` when updating the API spec
+- **Build** runs `npm run bundle` to merge everything into `emr-openapi.json` for Docusaurus
+- Run `npm run bundle` alone to regenerate the JSON without a full build
 
 ### Run the Development Server
 

@@ -1,0 +1,48 @@
+post:
+  summary: Subscribe to Location
+  description: >
+    Subscribes the authenticated EMR to a location. This adds the location to
+    the EMR's subscribed locations list. This endpoint is required to receive
+    webhook events for the location.
+  operationId: subscribeToLocation
+  tags:
+    - Subscriptions
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../emr-openapi.yaml#/components/schemas/SubscriptionRequest"
+        examples:
+          location_subscription:
+            summary: Subscribe to locationnnn
+            value:
+              location_id: loc_12345
+  responses:
+    "200":
+      description: Successfully subscribed to location or already subscribed
+      content:
+        application/json:
+          schema:
+            $ref: "../emr-openapi.yaml#/components/schemas/SubscriptionResponse"
+          examples:
+            success:
+              summary: Successful subscription
+              value:
+                success: true
+                message: Successfully subscribed to location
+            already_subscribed:
+              summary: Already subscribed
+              value:
+                success: true
+                message: Already subscribed to this location
+    "400":
+      $ref: "../emr-openapi.yaml#/components/responses/BadRequest"
+    "401":
+      $ref: "../emr-openapi.yaml#/components/responses/Unauthorized"
+    "403":
+      $ref: "../emr-openapi.yaml#/components/responses/Forbidden"
+    "404":
+      $ref: "../emr-openapi.yaml#/components/responses/NotFound"
+    "500":
+      $ref: "../emr-openapi.yaml#/components/responses/InternalServerError"

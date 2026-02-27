@@ -1,0 +1,46 @@
+ErrorResponse:
+  type: object
+  required:
+    - success
+    - error
+  properties:
+    success:
+      type: boolean
+      description: Always false for error responses
+      example: false
+    error:
+      type: string
+      description: Error message describing what went wrong
+      example: Missing required patient details
+    message:
+      type: string
+      description: Additional context about the error (optional)
+      example: The first_name field is required but was not provided
+  additionalProperties: false
+
+SubscriptionRequest:
+  type: object
+  required:
+    - location_id
+  properties:
+    location_id:
+      type: string
+      description: The ID of the location to subscribe to
+      example: loc_12345
+  additionalProperties: false
+
+SubscriptionResponse:
+  type: object
+  required:
+    - success
+    - message
+  properties:
+    success:
+      type: boolean
+      description: Indicates if the subscription was successful
+      example: true
+    message:
+      type: string
+      description: Success message indicating subscription status
+      example: Successfully subscribed to location
+  additionalProperties: false

@@ -1,0 +1,65 @@
+CreateAppointmentRequest:
+  type: object
+  required:
+    - patient_details
+    - location_id
+    - appointment_time
+    - requested_treatments
+  properties:
+    patient_details:
+      $ref: ./patient.yaml#/PatientDetails
+    location_id:
+      type: string
+      description: The ID of the location where the appointment will take place
+      example: loc_12345
+    appointment_time:
+      type: integer
+      description: >
+        Unix timestamp of the appointment date and time with the medspa. This is
+        different from the appointment time with Spakinect (provider). To schedule
+        an appointment with a Spakinect provider, the patient can use the Schedule
+        link in the email sent from Spakinect.
+      example: 1640995200
+      minimum: 1
+    requested_treatments:
+      type: array
+      description: List of treatment names requested for this appointment
+      items:
+        type: string
+      minItems: 1
+      example:
+        - Botox Injection
+        - Dermal Filler
+  additionalProperties: false
+
+CreateAppointmentResponse:
+  type: object
+  required:
+    - success
+    - gfe_id
+  properties:
+    success:
+      type: boolean
+      description: Indicates if the appointment was created successfully
+      example: true
+    gfe_id:
+      type: string
+      description: Unique identifier for the created GFE appointment
+      example: gfe_abc123xyz789
+  additionalProperties: false
+
+CancelAppointmentResponse:
+  type: object
+  required:
+    - gfe_id
+    - status
+  properties:
+    gfe_id:
+      type: string
+      description: Unique identifier for the cancelled GFE appointment
+      example: gfe_abc123xyz789
+    status:
+      type: string
+      description: The updated status of the appointment after cancellation
+      example: Cancelled by client
+  additionalProperties: false

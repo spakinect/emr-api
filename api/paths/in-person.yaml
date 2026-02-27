@@ -1,0 +1,29 @@
+post:
+  summary: Create a new in-person visit
+  description: >
+    Creates a new in-person visit for a patient. If a matching patient is found
+    by name and date of birth, their record is used; otherwise, a new patient
+    record is created.
+  tags:
+    - InPerson
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../emr-openapi.yaml#/components/schemas/InPersonVisitCreationRequest"
+  responses:
+    "201":
+      description: In-person visit created successfully.
+      content:
+        application/json:
+          schema:
+            $ref: "../emr-openapi.yaml#/components/schemas/InPersonVisitCreationResponse"
+    "400":
+      description: "Bad Request: Missing required fields, invalid date format, or no treatments found."
+    "403":
+      description: "Forbidden: EMR is not authorized for this location."
+    "404":
+      description: "Not Found: The specified location does not exist."
+    "500":
+      description: "Internal server error."

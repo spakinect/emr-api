@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Spakinect EMR Integration API",
-    "description": "API for External Electronic Medical Record (EMR) systems to integrate with Spakinect telemedicine platform. Provides endpoints for managing appointments, retrieving treatments, and checking visit statuses.",
+    "description": "API for External Electronic Medical Record (EMR) systems to integrate with Spakinect telemedicine platform. Provides endpoints for managing appointments, retrieving treatments, and checking visit statuses.\n",
     "version": "1.0.0",
     "contact": {
       "name": "Spakinect Support",
@@ -24,11 +24,37 @@
       "ApiKeyAuth": []
     }
   ],
+  "tags": [
+    {
+      "name": "Appointments",
+      "description": "Operations for creating and managing Good Faith Exam appointments"
+    },
+    {
+      "name": "GFEs",
+      "description": "Operations for retrieving Good Faith Exam visits by location"
+    },
+    {
+      "name": "Treatments",
+      "description": "Operations for retrieving available medical treatments"
+    },
+    {
+      "name": "InPerson",
+      "description": "Operations for creating and managing in-person intake visits"
+    },
+    {
+      "name": "Webhooks",
+      "description": "Operations for registering and managing webhook URLs for events."
+    },
+    {
+      "name": "Subscriptions",
+      "description": "Operations for managing location subscriptions"
+    }
+  ],
   "paths": {
     "/appointments": {
       "post": {
         "summary": "Create New Appointment",
-        "description": "Creates a new Good Faith Exam (GFE) appointment in the Spakinect system. Automatically handles patient creation or lookup based on provided details.",
+        "description": "Creates a new Good Faith Exam (GFE) appointment in the Spakinect system. Automatically handles patient creation or lookup based on provided details.\n",
         "operationId": "createAppointment",
         "tags": [
           "Appointments"
@@ -103,7 +129,7 @@
     "/treatments": {
       "get": {
         "summary": "Get Available Treatments",
-        "description": "Retrieves treatments. Returns all available treatments by default, or favorite treatments when type=favorites and location_id are provided.\n\n**URLs:**\n- All treatments: `GET /treatments`\n- Favorite treatments: `GET /treatments?type=favorites&location_id=<location_id>`",
+        "description": "Retrieves treatments. Returns all available treatments by default, or favorite\ntreatments when type=favorites and location_id are provided.\n\n**URLs:**\n- All treatments: `GET /treatments`\n- Favorite treatments: `GET /treatments?type=favorites&location_id=<location_id>`\n",
         "operationId": "getTreatments",
         "tags": [
           "Treatments"
@@ -113,7 +139,7 @@
             "name": "type",
             "in": "query",
             "required": false,
-            "description": "When set to 'favorites', returns the client's favorite treatments for the given location. Requires location_id.",
+            "description": "When set to 'favorites', returns the client's favorite treatments for the given location. Requires location_id.\n",
             "schema": {
               "type": "string",
               "enum": [
@@ -125,7 +151,7 @@
             "name": "location_id",
             "in": "query",
             "required": false,
-            "description": "Required when type=favorites. The unique identifier of the location. Used to resolve the client and fetch their favorite treatments.",
+            "description": "Required when type=favorites. The unique identifier of the location. Used to resolve the client and fetch their favorite treatments.\n",
             "schema": {
               "type": "string",
               "example": "loc_12345"
@@ -206,7 +232,7 @@
             "$ref": "#/components/responses/Forbidden"
           },
           "404": {
-            "description": "Location not found (when type=favorites). For all treatments, empty list returns 200 with data: [].",
+            "description": "Location not found (when type=favorites). For all treatments, empty list returns 200 with data: [].\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -233,7 +259,7 @@
     "/gfes/{location_id}": {
       "get": {
         "summary": "Get All GFEs by Location",
-        "description": "Retrieves all Good Faith Exam (GFE) visits for a specific location. Only returns visits that the authenticated EMR has access to based on location permissions. When visit status is \"Completed\", each visit includes decision outcomes mapped to treatment names: approved_treatments, conditionally_approved_treatments, and deferred_treatments.",
+        "description": "Retrieves all Good Faith Exam (GFE) visits for a specific location. Only returns visits that the authenticated EMR has access to based on location permissions. When visit status is \"Completed\", each visit includes decision outcomes mapped to treatment names: approved_treatments, conditionally_approved_treatments, and deferred_treatments.\n",
         "operationId": "getAllGFEsByLocation",
         "tags": [
           "GFEs"
@@ -287,7 +313,6 @@
                             "last_name": "Smith",
                             "dob": "05-15-1985",
                             "email": "jane.smith@example.com"
-                            
                           }
                         },
                         {
@@ -341,7 +366,7 @@
     "/visits/{gfe_id}": {
       "get": {
         "summary": "Get Visit Status",
-        "description": "Retrieves the current status and details of a Good Faith Exam (GFE) visit by ID. Only returns visits that the authenticated EMR has access to based on location permissions. When the visit status is \"Completed\", the response includes decision outcomes mapped to treatment names: approved_treatments, conditionally_approved_treatments, and deferred_treatments.",
+        "description": "Retrieves the current status and details of a Good Faith Exam (GFE) visit by ID. Only returns visits that the authenticated EMR has access to based on location permissions. When the visit status is \"Completed\", the response includes decision outcomes mapped to treatment names: approved_treatments, conditionally_approved_treatments, and deferred_treatments.\n",
         "operationId": "getVisitStatus",
         "tags": [
           "Appointments",
@@ -444,7 +469,7 @@
     "/appointments/{gfe_id}/cancel": {
       "patch": {
         "summary": "Cancel Appointment",
-        "description": "Cancels a Good Faith Exam (GFE) appointment by ID. Only visits with status \"Processing\", \"Scheduled\", or \"Not Completed\" can be cancelled. The visit status will be updated to \"Cancelled by client\". Only appointments that the authenticated EMR has access to based on location permissions can be cancelled.",
+        "description": "Cancels a Good Faith Exam (GFE) appointment by ID. Only visits with status \"Processing\", \"Scheduled\", or \"Not Completed\" can be cancelled. The visit status will be updated to \"Cancelled by client\". Only appointments that the authenticated EMR has access to based on location permissions can be cancelled.\n",
         "operationId": "cancelAppointment",
         "tags": [
           "Appointments"
@@ -502,8 +527,10 @@
     "/in-person": {
       "post": {
         "summary": "Create a new in-person visit",
-        "description": "Creates a new in-person visit for a patient. If a matching patient is found by name and date of birth, their record is used; otherwise, a new patient record is created.",
-        "tags": ["InPerson"],
+        "description": "Creates a new in-person visit for a patient. If a matching patient is found by name and date of birth, their record is used; otherwise, a new patient record is created.\n",
+        "tags": [
+          "InPerson"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -543,7 +570,7 @@
     "/webhooks": {
       "post": {
         "summary": "Register Webhook URL",
-        "description": "Registers or updates the webhook URL for the authenticated EMR.\n\n**Note:** To receive webhook events, a location must be subscribed to the EMR using the Location subscription endpoint (`POST /subscriptions`).\n\nWhen a GFE is completed, Spakinect will send a POST request to the registered URL with the payload described in `VisitCompletedWebhook`.\n\n- Event: `visit.completed`\n- Headers: `Content-Type: application/json`, `User-Agent: Spakinect-Webhook/1.0`, and if configured `X-Webhook-Secret: <secret>`.\n- Schema: `#/components/schemas/VisitCompletedWebhook`",
+        "description": "Registers or updates the webhook URL for the authenticated EMR.\n\n**Note:** To receive webhook events, a location must be subscribed to the EMR\nusing the Location subscription endpoint (`POST /subscriptions`).\n\nWhen a GFE is completed, Spakinect will send a POST request to the registered\nURL with the payload described in `VisitCompletedWebhook`.\n\n- Event: `visit.completed`\n- Headers: `Content-Type: application/json`, `User-Agent: Spakinect-Webhook/1.0`,\n  and if configured `X-Webhook-Secret: <secret>`.\n- Schema: `#/components/schemas/VisitCompletedWebhook`\n",
         "operationId": "registerWebhook",
         "tags": [
           "Webhooks"
@@ -606,8 +633,8 @@
     },
     "/subscriptions": {
       "post": {
-        "summary": "Subscribe to Location",
-        "description": "Subscribes the authenticated EMR to a location. This adds the location to the EMR's subscribed locations list. This endpoint is required to receive webhook events for the location.",
+        "summary": "Subscribe to Locationnnn",
+        "description": "Subscribes the authenticated EMR to a location. This adds the location to the EMR's subscribed locations list. This endpoint is required to receive webhook events for the location.\n",
         "operationId": "subscribeToLocation",
         "tags": [
           "Subscriptions"
@@ -621,7 +648,7 @@
               },
               "examples": {
                 "location_subscription": {
-                  "summary": "Subscribe to location",
+                  "summary": "Subscribe to locationnnn",
                   "value": {
                     "location_id": "loc_12345"
                   }
@@ -682,7 +709,7 @@
         "type": "apiKey",
         "in": "header",
         "name": "x-api-key",
-        "description": "API key provided by Spakinect for EMR integration. This key must be associated with at least one location that the EMR system has access to."
+        "description": "API key provided by Spakinect for EMR integration. This key must be associated with at least one location that the EMR system has access to.\n"
       }
     },
     "schemas": {
@@ -705,7 +732,7 @@
           },
           "appointment_time": {
             "type": "integer",
-            "description": "Unix timestamp of the appointment date and time with the medspa. This is different from the appointment time with Spakinect (provider). To schedule an appointment with a Spakinect provider, the patient can use the Schedule link in the email sent from Spakinect.",
+            "description": "Unix timestamp of the appointment date and time with the medspa. This is different from the appointment time with Spakinect (provider). To schedule an appointment with a Spakinect provider, the patient can use the Schedule link in the email sent from Spakinect.\n",
             "example": 1640995200,
             "minimum": 1
           },
@@ -720,90 +747,6 @@
               "Botox Injection",
               "Dermal Filler"
             ]
-          }
-        },
-        "additionalProperties": false
-      },
-      "InPersonVisitCreationRequest": {
-        "type": "object",
-        "title": "In-person Visit Creation Request",
-        "required": ["patient_details", "location_id", "requested_treatments"],
-        "properties": {
-          "patient_details": {
-            "type": "object",
-            "required": ["first_name", "last_name", "dob"],
-            "properties": {
-              "first_name": { "type": "string", "description": "The patient's first name." },
-              "last_name": { "type": "string", "description": "The patient's last name." },
-              "dob": {
-                "type": "string",
-                "description": "The patient's date of birth in MM-DD-YYYY format.",
-                "example": "10/27/1990"
-              }
-            }
-          },
-          "location_id": {
-            "type": "string",
-            "description": "The ID of the location where the visit will take place.",
-            "example": "loc_12345"
-          },
-          "requested_treatments": {
-            "type": "array",
-            "description": "A non-empty list of treatment names requested for the visit.",
-            "minItems": 1,
-            "items": {
-              "type": "string"
-            },
-            "example": [
-              "Botox Injection",
-              "Dermal Filler"
-            ]
-          }
-        }
-      },
-      "InPersonVisitCreationResponse": {
-        "type": "object",
-        "title": "In-person Visit Creation Response",
-        "properties": {
-          "success": { "type": "boolean", "description": "Indicates if the operation was successful." },
-          "gfe_id": { "type": "string", "description": "The unique ID of the newly created visit.","example":"gfe123" },
-          "visit_link": { "type": "string", "format": "uri", "description": "A direct URL to the visit intake form.","example":"https:client-test.spakinect.com/visit/gfe123" }
-        }
-      },
-      "PatientDetails": {
-        "type": "object",
-        "required": [
-          "first_name",
-          "last_name",
-          "email",
-          "phone"
-        ],
-        "properties": {
-          "first_name": {
-            "type": "string",
-            "description": "Patient's first name",
-            "example": "John",
-            "minLength": 1,
-            "maxLength": 100
-          },
-          "last_name": {
-            "type": "string",
-            "description": "Patient's last name",
-            "example": "Doe",
-            "minLength": 1,
-            "maxLength": 100
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "description": "Patient's email address",
-            "example": "john.doe@example.com"
-          },
-          "phone": {
-            "type": "string",
-            "description": "Patient's phone number",
-            "example": "+1234567890",
-            "pattern": "^\\+?[1-9]\\d{1,14}$"
           }
         },
         "additionalProperties": false
@@ -848,26 +791,79 @@
         },
         "additionalProperties": false
       },
-      "TreatmentsResponse": {
+      "PatientDetails": {
         "type": "object",
         "required": [
-          "data"
+          "first_name",
+          "last_name",
+          "email",
+          "phone"
         ],
         "properties": {
-          "data": {
-            "type": "array",
-            "description": "List of available treatments",
-            "items": {
-              "$ref": "#/components/schemas/Treatment"
-            }
-          },
-          "source": {
+          "first_name": {
             "type": "string",
-            "description": "Present when type=favorites. Indicates the treatments are from the client's favorites configuration.",
-            "enum": [
-              "favorites"
-            ],
-            "example": "favorites"
+            "description": "Patient's first name",
+            "example": "John",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Patient's last name",
+            "example": "Doe",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Patient's email address",
+            "example": "john.doe@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Patient's phone number",
+            "example": "+1234567890",
+            "pattern": "^\\+?[1-9]\\d{1,14}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VisitPatientDetails": {
+        "type": "object",
+        "required": [
+          "name",
+          "first_name",
+          "last_name",
+          "email"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Patient's full name",
+            "example": "John Doe"
+          },
+          "first_name": {
+            "type": "string",
+            "description": "Patient's first name",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Patient's last name",
+            "example": "Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Patient's email address",
+            "example": "john.doe@example.com"
+          },
+          "dob": {
+            "type": "string",
+            "description": "Patient's date of birth in MM-DD-YYYY format",
+            "example": "10-27-1990",
+            "pattern": "^\\d{2}-\\d{2}-\\d{4}$"
           }
         },
         "additionalProperties": false
@@ -888,6 +884,110 @@
             "type": "string",
             "description": "Display name of the treatment",
             "example": "Botox Injection"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TreatmentsResponse": {
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "description": "List of available treatments",
+            "items": {
+              "$ref": "#/components/schemas/Treatment"
+            }
+          },
+          "source": {
+            "type": "string",
+            "description": "Present when type=favorites. Indicates the treatments are from the client's favorite configuration.\n",
+            "enum": [
+              "favorites"
+            ],
+            "example": "favorites"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VisitData": {
+        "type": "object",
+        "required": [
+          "gfe_id",
+          "status",
+          "requested_treatments",
+          "patient_details"
+        ],
+        "properties": {
+          "gfe_id": {
+            "type": "string",
+            "description": "Unique identifier for the GFE visit",
+            "example": "gfe_abc123xyz789"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the visit",
+            "enum": [
+              "Processing",
+              "Pending Review",
+              "Approved",
+              "Completed",
+              "Cancelled",
+              "Rejected"
+            ],
+            "example": "Processing"
+          },
+          "requested_treatments": {
+            "type": "array",
+            "description": "List of treatments requested for this visit",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Botox Injection",
+              "Dermal Filler"
+            ]
+          },
+          "patient_details": {
+            "$ref": "#/components/schemas/VisitPatientDetails"
+          },
+          "approved_treatments": {
+            "type": "array",
+            "description": "Present only when status is Completed. Names of treatments approved.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Botox Injection"
+            ]
+          },
+          "conditionally_approved_treatments": {
+            "type": "array",
+            "description": "Present only when status is Completed. Names of treatments approved with conditions.\n",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Dermal Filler"
+            ]
+          },
+          "deferred_treatments": {
+            "type": "array",
+            "description": "Present only when status is Completed. Names of treatments deferred.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Chemical Peel"
+            ]
+          },
+          "pdf_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the generated GFE PDF, if available. Present only when a PDF has been generated for the visit.\n",
+            "example": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf"
           }
         },
         "additionalProperties": false
@@ -945,36 +1045,47 @@
         },
         "additionalProperties": false
       },
-      "VisitData": {
+      "InPersonVisitCreationRequest": {
         "type": "object",
+        "title": "In-person Visit Creation Request",
         "required": [
-          "gfe_id",
-          "status",
-          "requested_treatments",
-          "patient_details"
+          "patient_details",
+          "location_id",
+          "requested_treatments"
         ],
         "properties": {
-          "gfe_id": {
-            "type": "string",
-            "description": "Unique identifier for the GFE visit",
-            "example": "gfe_abc123xyz789"
-          },
-          "status": {
-            "type": "string",
-            "description": "Current status of the visit",
-            "enum": [
-              "Processing",
-              "Pending Review",
-              "Approved",
-              "Completed",
-              "Cancelled",
-              "Rejected"
+          "patient_details": {
+            "type": "object",
+            "required": [
+              "first_name",
+              "last_name",
+              "dob"
             ],
-            "example": "Processing"
+            "properties": {
+              "first_name": {
+                "type": "string",
+                "description": "The patient's first name."
+              },
+              "last_name": {
+                "type": "string",
+                "description": "The patient's last name."
+              },
+              "dob": {
+                "type": "string",
+                "description": "The patient's date of birth in MM-DD-YYYY format.",
+                "example": "10/27/1990"
+              }
+            }
+          },
+          "location_id": {
+            "type": "string",
+            "description": "The ID of the location where the visit will take place.",
+            "example": "loc_12345"
           },
           "requested_treatments": {
             "type": "array",
-            "description": "List of treatments requested for this visit",
+            "description": "A non-empty list of treatment names requested for the visit.",
+            "minItems": 1,
             "items": {
               "type": "string"
             },
@@ -982,187 +1093,29 @@
               "Botox Injection",
               "Dermal Filler"
             ]
-          },
-          "patient_details": {
-            "$ref": "#/components/schemas/VisitPatientDetails"
-          },
-          "approved_treatments": {
-            "type": "array",
-            "description": "Present only when status is Completed. Names of treatments approved.",
-            "items": { "type": "string" },
-            "example": ["Botox Injection"]
-          },
-          "conditionally_approved_treatments": {
-            "type": "array",
-            "description": "Present only when status is Completed. Names of treatments approved with conditions.",
-            "items": { "type": "string" },
-            "example": ["Dermal Filler"]
-          },
-          "deferred_treatments": {
-            "type": "array",
-            "description": "Present only when status is Completed. Names of treatments deferred.",
-            "items": { "type": "string" },
-            "example": ["Chemical Peel"]
-          },
-          "pdf_link": {
-            "type": "string",
-            "format": "uri",
-            "description": "URL to the generated GFE PDF, if available. Present only when a PDF has been generated for the visit.",
-            "example": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf"
-          }
-        },
-        "additionalProperties": false
-      },
-      "VisitPatientDetails": {
-        "type": "object",
-        "required": [
-          "name",
-          "first_name",
-          "last_name",
-          "email"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Patient's full name",
-            "example": "John Doe"
-          },
-          "first_name": {
-            "type": "string",
-            "description": "Patient's first name",
-            "example": "John"
-          },
-          "last_name": {
-            "type": "string",
-            "description": "Patient's last name",
-            "example": "Doe"
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "description": "Patient's email address",
-            "example": "john.doe@example.com"
-          },
-          "dob": {
-            "type": "string",
-            "description": "Patient's date of birth in MM-DD-YYYY format",
-            "example": "10-27-1990",
-            "pattern": "^\\d{2}-\\d{2}-\\d{4}$"
-          }
-        },
-        "additionalProperties": false
-      },
-      "VisitCompletedWebhook": {
-        "type": "object",
-        "title": "Visit Completed Webhook",
-        "description": "Payload delivered to the EMR webhook URL when a GFE visit is completed.",
-        "required": ["event", "timestamp", "success", "data"],
-        "properties": {
-          "event": {
-            "type": "string",
-            "description": "The webhook event type.",
-            "enum": ["visit.completed"],
-            "example": "visit.completed"
-          },
-          "timestamp": {
-            "type": "integer",
-            "description": "Unix timestamp (milliseconds) when the webhook was generated.",
-            "example": 1714675200000
-          },
-          "success": {
-            "type": "boolean",
-            "description": "Indicates if the visit data retrieval was successful.",
-            "example": true
-          },
-          "data": {
-            "$ref": "#/components/schemas/VisitCompletedWebhookData"
-          }
-        },
-        "example": {
-          "event": "visit.completed",
-          "timestamp": 1714675200000,
-          "success": true,
-          "data": {
-            "location_id": "loc_12345",
-            "gfe_id": "gfe_abc123xyz789",
-            "status": "Completed",
-            "pdf_link": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf",
-            "requested_treatments": ["Botox Injection", "Dermal Filler"],
-            "approved_treatments": ["Botox Injection"],
-            "conditionally_approved_treatments": ["Dermal Filler"],
-            "deferred_treatments": [],
-            "patient_details": {
-              "name": "Jane Smith",
-              "first_name": "Jane",
-              "last_name": "Smith",
-              "dob": "05-15-1985",
-              "email": "jane.smith@example.com"
-            }
           }
         }
       },
-      "VisitCompletedWebhookData": {
+      "InPersonVisitCreationResponse": {
         "type": "object",
-        "title": "Visit Completed Webhook Data",
-        "required": [
-          "location_id",
-          "gfe_id",
-          "status",
-          "requested_treatments",
-          "patient_details"
-        ],
+        "title": "In-person Visit Creation Response",
         "properties": {
-          "location_id": {
-            "type": "string",
-            "description": "The ID of the location where the visit took place.",
-            "example": "loc_12345"
+          "success": {
+            "type": "boolean",
+            "description": "Indicates if the operation was successful."
           },
           "gfe_id": {
             "type": "string",
-            "description": "Unique identifier for the GFE visit.",
-            "example": "gfe_abc123xyz789"
+            "description": "The unique ID of the newly created visit.",
+            "example": "gfe123"
           },
-          "status": {
-            "type": "string",
-            "description": "Final status of the visit.",
-            "enum": ["Completed"],
-            "example": "Completed"
-          },
-          "pdf_link": {
+          "visit_link": {
             "type": "string",
             "format": "uri",
-            "description": "URL to the generated GFE PDF, if available.",
-            "example": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf"
-          },
-          "requested_treatments": {
-            "type": "array",
-            "description": "List of treatments originally requested for this visit.",
-            "items": { "type": "string" },
-            "example": ["Botox Injection", "Dermal Filler"]
-          },
-          "patient_details": {
-            "$ref": "#/components/schemas/VisitPatientDetails"
-          },
-          "approved_treatments": {
-            "type": "array",
-            "description": "Names of treatments approved by the provider. Present when status is Completed.",
-            "items": { "type": "string" },
-            "example": ["Botox Injection"]
-          },
-          "conditionally_approved_treatments": {
-            "type": "array",
-            "description": "Names of treatments that are conditionally approved. Present when status is Completed.",
-            "items": { "type": "string" },
-            "example": ["Dermal Filler"]
-          },
-          "deferred_treatments": {
-            "type": "array",
-            "description": "Names of treatments deferred to a later time. Present when status is Completed.",
-            "items": { "type": "string" },
-            "example": ["Chemical Peel"]
+            "description": "A direct URL to the visit intake form.",
+            "example": "https://client-test.spakinect.com/visit/gfe123"
           }
-        },
-        "additionalProperties": false
+        }
       },
       "ErrorResponse": {
         "type": "object",
@@ -1220,6 +1173,151 @@
             "type": "string",
             "description": "Success message",
             "example": "Webhook URL updated successfully"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VisitCompletedWebhook": {
+        "type": "object",
+        "title": "Visit Completed Webhook",
+        "description": "Payload delivered to the EMR webhook URL when a GFE visit is completed.\n",
+        "required": [
+          "event",
+          "timestamp",
+          "success",
+          "data"
+        ],
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "The webhook event type.",
+            "enum": [
+              "visit.completed"
+            ],
+            "example": "visit.completed"
+          },
+          "timestamp": {
+            "type": "integer",
+            "description": "Unix timestamp (milliseconds) when the webhook was generated.",
+            "example": 1714675200000
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates if the visit data retrieval was successful.",
+            "example": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/VisitCompletedWebhookData"
+          }
+        },
+        "example": {
+          "event": "visit.completed",
+          "timestamp": 1714675200000,
+          "success": true,
+          "data": {
+            "location_id": "loc_12345",
+            "gfe_id": "gfe_abc123xyz789",
+            "status": "Completed",
+            "pdf_link": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf",
+            "requested_treatments": [
+              "Botox Injection",
+              "Dermal Filler"
+            ],
+            "approved_treatments": [
+              "Botox Injection"
+            ],
+            "conditionally_approved_treatments": [
+              "Dermal Filler"
+            ],
+            "deferred_treatments": [],
+            "patient_details": {
+              "name": "Jane Smith",
+              "first_name": "Jane",
+              "last_name": "Smith",
+              "dob": "05-15-1985",
+              "email": "jane.smith@example.com"
+            }
+          }
+        }
+      },
+      "VisitCompletedWebhookData": {
+        "type": "object",
+        "title": "Visit Completed Webhook Data",
+        "required": [
+          "location_id",
+          "gfe_id",
+          "status",
+          "requested_treatments",
+          "patient_details"
+        ],
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "description": "The ID of the location where the visit took place.",
+            "example": "loc_12345"
+          },
+          "gfe_id": {
+            "type": "string",
+            "description": "Unique identifier for the GFE visit.",
+            "example": "gfe_abc123xyz789"
+          },
+          "status": {
+            "type": "string",
+            "description": "Final status of the visit.",
+            "enum": [
+              "Completed"
+            ],
+            "example": "Completed"
+          },
+          "pdf_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the generated GFE PDF, if available.",
+            "example": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf"
+          },
+          "requested_treatments": {
+            "type": "array",
+            "description": "List of treatments originally requested for this visit.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Botox Injection",
+              "Dermal Filler"
+            ]
+          },
+          "patient_details": {
+            "$ref": "#/components/schemas/VisitPatientDetails"
+          },
+          "approved_treatments": {
+            "type": "array",
+            "description": "Names of treatments approved by the provider. Present when status is Completed.\n",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Botox Injection"
+            ]
+          },
+          "conditionally_approved_treatments": {
+            "type": "array",
+            "description": "Names of treatments that are conditionally approved. Present when status is Completed.\n",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Dermal Filler"
+            ]
+          },
+          "deferred_treatments": {
+            "type": "array",
+            "description": "Names of treatments deferred to a later time. Present when status is Completed.\n",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Chemical Peel"
+            ]
           }
         },
         "additionalProperties": false
@@ -1446,32 +1544,6 @@
           }
         }
       }
-    },
-    "tags": [
-      {
-        "name": "Appointments",
-        "description": "Operations for creating and managing Good Faith Exam appointments"
-      },
-      {
-        "name": "GFEs",
-        "description": "Operations for retrieving Good Faith Exam visits by location"
-      },
-      {
-        "name": "Treatments",
-        "description": "Operations for retrieving available medical treatments"
-      },
-      {
-        "name": "InPerson",
-        "description": "Operations for creating and managing in-person intake visits"
-      },
-      {
-        "name": "Webhooks",
-        "description": "Operations for registering and managing webhook URLs for events."
-      },
-      {
-        "name": "Subscriptions",
-        "description": "Operations for managing location subscriptions"
-      }
-    ]
+    }
   }
 }

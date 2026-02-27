@@ -1,0 +1,55 @@
+InPersonVisitCreationRequest:
+  type: object
+  title: In-person Visit Creation Request
+  required:
+    - patient_details
+    - location_id
+    - requested_treatments
+  properties:
+    patient_details:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - dob
+      properties:
+        first_name:
+          type: string
+          description: The patient's first name.
+        last_name:
+          type: string
+          description: The patient's last name.
+        dob:
+          type: string
+          description: The patient's date of birth in MM-DD-YYYY format.
+          example: "10/27/1990"
+    location_id:
+      type: string
+      description: The ID of the location where the visit will take place.
+      example: loc_12345
+    requested_treatments:
+      type: array
+      description: A non-empty list of treatment names requested for the visit.
+      minItems: 1
+      items:
+        type: string
+      example:
+        - Botox Injection
+        - Dermal Filler
+
+InPersonVisitCreationResponse:
+  type: object
+  title: In-person Visit Creation Response
+  properties:
+    success:
+      type: boolean
+      description: Indicates if the operation was successful.
+    gfe_id:
+      type: string
+      description: The unique ID of the newly created visit.
+      example: gfe123
+    visit_link:
+      type: string
+      format: uri
+      description: A direct URL to the visit intake form.
+      example: https://client-test.spakinect.com/visit/gfe123
