@@ -15,7 +15,7 @@ post:
           $ref: "../emr-openapi.yaml#/components/schemas/SubscriptionRequest"
         examples:
           location_subscription:
-            summary: Subscribe to locationnnn
+            summary: Subscribe to location
             value:
               location_id: loc_12345
   responses:

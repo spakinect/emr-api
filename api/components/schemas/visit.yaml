@@ -61,6 +61,12 @@ VisitData:
         URL to the generated GFE PDF, if available. Present only when a PDF
         has been generated for the visit.
       example: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
+    evaluation_completed:
+      type: integer
+      description: >
+        Unix timestamp (seconds) when the provider completed the evaluation.
+        Present only when status is Completed.
+      example: 1714675200
   additionalProperties: false
 
 VisitStatusResponse:

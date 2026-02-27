@@ -633,7 +633,7 @@
     },
     "/subscriptions": {
       "post": {
-        "summary": "Subscribe to Locationnnn",
+        "summary": "Subscribe to Location",
         "description": "Subscribes the authenticated EMR to a location. This adds the location to the EMR's subscribed locations list. This endpoint is required to receive webhook events for the location.\n",
         "operationId": "subscribeToLocation",
         "tags": [
@@ -648,7 +648,7 @@
               },
               "examples": {
                 "location_subscription": {
-                  "summary": "Subscribe to locationnnn",
+                  "summary": "Subscribe to location",
                   "value": {
                     "location_id": "loc_12345"
                   }
@@ -988,6 +988,11 @@
             "format": "uri",
             "description": "URL to the generated GFE PDF, if available. Present only when a PDF has been generated for the visit.\n",
             "example": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf"
+          },
+          "evaluation_completed": {
+            "type": "integer",
+            "description": "Unix timestamp (seconds) when the provider completed the evaluation. Present only when status is Completed.\n",
+            "example": 1714675200
           }
         },
         "additionalProperties": false
