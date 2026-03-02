@@ -53,8 +53,8 @@
   "paths": {
     "/appointments": {
       "post": {
-        "summary": "Create New Appointment",
-        "description": "Creates a new Good Faith Exam (GFE) appointment in the Spakinect system. Automatically handles patient creation or lookup based on provided details.\n",
+        "summary": "Creates a new At-Home Visit",
+        "description": "Creates a new At-Home Visit (Good Faith Exam (GFE)) in the Spakinect system.  The patient will be emailed and texted a link to complete their GFE prior to their appointment at the medspa.\n",
         "operationId": "createAppointment",
         "tags": [
           "Appointments"
@@ -307,7 +307,7 @@
                           ],
                           "deferred_treatments": [],
                           "pdf_link": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf",
-                          "evaluation_completed": 1714675200,
+                          "evaluation_completed": "2024-05-02T07:00:00-07:00",
                           "patient_details": {
                             "name": "Jane Smith",
                             "first_name": "Jane",
@@ -414,7 +414,7 @@
                           "Chemical Peel"
                         ],
                         "pdf_link": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf",
-                        "evaluation_completed": 1714675200,
+                        "evaluation_completed": "2024-05-02T07:00:00-07:00",
                         "patient_details": {
                           "name": "Jane Smith",
                           "first_name": "Jane",
@@ -470,8 +470,8 @@
     },
     "/appointments/{gfe_id}/cancel": {
       "patch": {
-        "summary": "Cancel Appointment",
-        "description": "Cancels a Good Faith Exam (GFE) appointment by ID. Only visits with status \"Processing\", \"Scheduled\", or \"Not Completed\" can be cancelled. The visit status will be updated to \"Cancelled by client\". Only appointments that the authenticated EMR has access to based on location permissions can be cancelled.\n",
+        "summary": "Cancels an At-Home Visit",
+        "description": "Cancels an At-Home Visit Good Faith Exam by ID. Only visits with status \"Processing\", \"Scheduled\", or \"Not Completed\" can be cancelled. The visit status will be updated to \"Cancelled by client\". Only appointments that the authenticated EMR has access to based on location permissions can be cancelled.\n",
         "operationId": "cancelAppointment",
         "tags": [
           "Appointments"
@@ -992,9 +992,10 @@
             "example": "https://example-cdn.com/gfe/gfe_abc123xyz789.pdf"
           },
           "evaluation_completed": {
-            "type": "integer",
-            "description": "Unix timestamp (seconds) when the provider completed the evaluation. Present only when status is Completed.\n",
-            "example": 1714675200
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 datetime when the provider completed the evaluation, in Pacific time (PST/PDT). Present only when status is Completed. Example: 2024-05-02T07:00:00-07:00\n",
+            "example": "2024-05-02T07:00:00-07:00"
           }
         },
         "additionalProperties": false
@@ -1237,6 +1238,7 @@
               "Dermal Filler"
             ],
             "deferred_treatments": [],
+            "evaluation_completed": "2024-05-02T07:00:00-07:00",
             "patient_details": {
               "name": "Jane Smith",
               "first_name": "Jane",
@@ -1325,6 +1327,12 @@
             "example": [
               "Chemical Peel"
             ]
+          },
+          "evaluation_completed": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 datetime when the provider completed the evaluation, in Pacific time (PST/PDT).\n",
+            "example": "2024-05-02T07:00:00-07:00"
           }
         },
         "additionalProperties": false

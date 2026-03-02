@@ -118,6 +118,7 @@ Triggered when a Good Faith Exam (GFE) visit is completed and all treatment deci
       "Dermal Filler"
     ],
     "deferred_treatments": [],
+    "evaluation_completed": "2024-05-02T07:00:00-07:00",
     "patient_details": {
       "name": "Jane Smith",
       "first_name": "Jane",
@@ -143,6 +144,7 @@ Triggered when a Good Faith Exam (GFE) visit is completed and all treatment deci
 | `data.approved_treatments` | array | List of treatment names that were approved |
 | `data.conditionally_approved_treatments` | array | List of treatment names with conditional approval |
 | `data.deferred_treatments` | array | List of treatment names that were deferred |
+| `data.evaluation_completed` | string | ISO 8601 datetime when the provider completed the evaluation, in Pacific time (PST/PDT). Example: `2024-05-02T07:00:00-07:00` |
 | `data.patient_details` | object | Patient information |
 | `data.patient_details.name` | string | Patient's full name |
 | `data.patient_details.first_name` | string | Patient's first name |

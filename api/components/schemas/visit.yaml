@@ -62,11 +62,13 @@ VisitData:
         has been generated for the visit.
       example: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
     evaluation_completed:
-      type: integer
+      type: string
+      format: date-time
       description: >
-        Unix timestamp (seconds) when the provider completed the evaluation.
-        Present only when status is Completed.
-      example: 1714675200
+        ISO 8601 datetime when the provider completed the evaluation, in Pacific
+        time (PST/PDT). Present only when status is Completed.
+        Example: 2024-05-02T07:00:00-07:00
+      example: "2024-05-02T07:00:00-07:00"
   additionalProperties: false
 
 VisitStatusResponse:

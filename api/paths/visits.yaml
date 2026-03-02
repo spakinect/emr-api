@@ -42,7 +42,7 @@ get:
                   deferred_treatments:
                     - Chemical Peel
                   pdf_link: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
-                  evaluation_completed: 1714675200
+                  evaluation_completed: "2024-05-02T07:00:00-07:00"
                   patient_details:
                     name: Jane Smith
                     first_name: Jane

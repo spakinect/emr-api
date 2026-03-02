@@ -92,6 +92,13 @@ VisitCompletedWebhookData:
         type: string
       example:
         - Chemical Peel
+    evaluation_completed:
+      type: string
+      format: date-time
+      description: >
+        ISO 8601 datetime when the provider completed the evaluation, in Pacific
+        time (PST/PDT).
+      example: "2024-05-02T07:00:00-07:00"
   additionalProperties: false
 
 VisitCompletedWebhook:
@@ -138,6 +145,7 @@ VisitCompletedWebhook:
       conditionally_approved_treatments:
         - Dermal Filler
       deferred_treatments: []
+      evaluation_completed: "2024-05-02T07:00:00-07:00"
       patient_details:
         name: Jane Smith
         first_name: Jane

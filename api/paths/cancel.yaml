@@ -1,7 +1,7 @@
 patch:
-  summary: Cancel Appointment
+  summary: Cancels an At-Home Visit
   description: >
-    Cancels a Good Faith Exam (GFE) appointment by ID. Only visits with status
+    Cancels an At-Home Visit Good Faith Exam by ID. Only visits with status
     "Processing", "Scheduled", or "Not Completed" can be cancelled. The visit
     status will be updated to "Cancelled by client". Only appointments that the
     authenticated EMR has access to based on location permissions can be

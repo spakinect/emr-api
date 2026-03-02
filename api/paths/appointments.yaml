@@ -1,8 +1,7 @@
 post:
-  summary: Create New Appointment
+  summary: Creates a new At-Home Visit
   description: >
-    Creates a new Good Faith Exam (GFE) appointment in the Spakinect system.
-    Automatically handles patient creation or lookup based on provided details.
+    Creates a new At-Home Visit (Good Faith Exam (GFE)) in the Spakinect system.  The patient will be emailed and texted a link to complete their GFE prior to their appointment at the medspa.
   operationId: createAppointment
   tags:
     - Appointments
