@@ -32,11 +32,11 @@ tags:
 paths:
   /appointments:
     post:
-      summary: Create New Appointment
+      summary: Creates a new At-Home Visit
       description: >
-        Creates a new Good Faith Exam (GFE) appointment in the Spakinect system.
-        Automatically handles patient creation or lookup based on provided
-        details.
+        Creates a new At-Home Visit (Good Faith Exam (GFE)) in the Spakinect
+        system.  The patient will be emailed and texted a link to complete their
+        GFE prior to their appointment at the medspa.
       operationId: createAppointment
       tags:
         - Appointments
@@ -230,7 +230,7 @@ paths:
                           - Dermal Filler
                         deferred_treatments: []
                         pdf_link: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
-                        evaluation_completed: 1714675200
+                        evaluation_completed: '2024-05-02T07:00:00-07:00'
                         patient_details:
                           name: Jane Smith
                           first_name: Jane
@@ -310,7 +310,7 @@ paths:
                       deferred_treatments:
                         - Chemical Peel
                       pdf_link: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
-                      evaluation_completed: 1714675200
+                      evaluation_completed: '2024-05-02T07:00:00-07:00'
                       patient_details:
                         name: Jane Smith
                         first_name: Jane
@@ -345,13 +345,13 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /appointments/{gfe_id}/cancel:
     patch:
-      summary: Cancel Appointment
+      summary: Cancels an At-Home Visit
       description: >
-        Cancels a Good Faith Exam (GFE) appointment by ID. Only visits with
-        status "Processing", "Scheduled", or "Not Completed" can be cancelled.
-        The visit status will be updated to "Cancelled by client". Only
-        appointments that the authenticated EMR has access to based on location
-        permissions can be cancelled.
+        Cancels an At-Home Visit Good Faith Exam by ID. Only visits with status
+        "Processing", "Scheduled", or "Not Completed" can be cancelled. The
+        visit status will be updated to "Cancelled by client". Only appointments
+        that the authenticated EMR has access to based on location permissions
+        can be cancelled.
       operationId: cancelAppointment
       tags:
         - Appointments
@@ -763,11 +763,13 @@ components:
             has been generated for the visit.
           example: https://example-cdn.com/gfe/gfe_abc123xyz789.pdf
         evaluation_completed:
-          type: integer
+          type: string
+          format: date-time
           description: >
-            Unix timestamp (seconds) when the provider completed the evaluation.
-            Present only when status is Completed.
-          example: 1714675200
+            ISO 8601 datetime when the provider completed the evaluation, in
+            Pacific time (PST/PDT). Present only when status is Completed.
+            Example: 2024-05-02T07:00:00-07:00
+          example: '2024-05-02T07:00:00-07:00'
       additionalProperties: false
     VisitStatusResponse:
       type: object
@@ -952,6 +954,7 @@ components:
           conditionally_approved_treatments:
             - Dermal Filler
           deferred_treatments: []
+          evaluation_completed: '2024-05-02T07:00:00-07:00'
           patient_details:
             name: Jane Smith
             first_name: Jane
@@ -1024,6 +1027,13 @@ components:
             type: string
           example:
             - Chemical Peel
+        evaluation_completed:
+          type: string
+          format: date-time
+          description: >
+            ISO 8601 datetime when the provider completed the evaluation, in
+            Pacific time (PST/PDT).
+          example: '2024-05-02T07:00:00-07:00'
       additionalProperties: false
     SubscriptionRequest:
       type: object
