@@ -42,7 +42,7 @@
       "description": "Operations for creating and managing in-person intake visits"
     },
     {
-      "name": "Webhooks",
+      "name": "Webhook",
       "description": "Operations for registering and managing webhook URLs for events."
     },
     {
