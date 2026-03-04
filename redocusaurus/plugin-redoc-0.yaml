@@ -25,7 +25,7 @@ tags:
     description: Operations for retrieving available medical treatments
   - name: InPerson
     description: Operations for creating and managing in-person intake visits
-  - name: Webhooks
+  - name: Webhook
     description: Operations for registering and managing webhook URLs for events.
   - name: Subscriptions
     description: Operations for managing location subscriptions
@@ -34,9 +34,9 @@ paths:
     post:
       summary: Creates a new At-Home Visit
       description: >
-        Creates a new At-Home Visit (Good Faith Exam (GFE)) in the Spakinect
-        system.  The patient will be emailed and texted a link to complete their
-        GFE prior to their appointment at the medspa.
+        Creates a new At-Home Visit (Good Faith Exam) in the Spakinect system. 
+        The patient will be emailed and texted a link to complete their GFE
+        prior to their appointment at the medspa.
       operationId: createAppointment
       tags:
         - Appointments
