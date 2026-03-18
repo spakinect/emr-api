@@ -49,11 +49,16 @@ post:
                     selected: yes
                     items:
                       - Penicillin
+                - question: medical-conditions
+                  answer:
+                    selected: no
+                    items: []
                 - question: medications
                   answer:
                     selected: yes
                     items:
-                      - Botox (previous)
+                      - Aspirin
+                      - Vitamin D
   responses:
     "201":
       description: Appointment created successfully
