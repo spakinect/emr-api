@@ -30,6 +30,41 @@ CreateAppointmentRequest:
       example:
         - Botox Injection
         - Dermal Filler
+    intake_answers:
+      type: array
+      description: >
+        Optional. Submit intake question answers while creating the appointment for at-home visit patients so they can review and modify them if needed. Supported question codes are pregnant-breastfeeding-ivf (pregnancy, breastfeeding, IVF status), medications, and allergies.
+      items:
+        type: object
+        required:
+          - question
+          - answer
+        properties:
+          question:
+            type: string
+            description: >
+              The question_code that identifies the intake question. Examples:
+              pregnant-breastfeeding-ivf, medications, allergies.
+          answer:
+            oneOf:
+              - type: string
+                description: For single choice questions - the selected choice value
+              - type: object
+                description: For yes_no_list questions
+                required:
+                  - selected
+                  - items
+                properties:
+                  selected:
+                    type: string
+                    enum:
+                      - yes
+                      - no
+                  items:
+                    type: array
+                    description: List of selected items (must be empty when selected is "no")
+                    items:
+                      type: string
   additionalProperties: false
 
 CreateAppointmentResponse:
