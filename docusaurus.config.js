@@ -49,6 +49,10 @@ const config = {
         theme: {
           // You can customize the color scheme here
           primaryColor: "#4A90E2",
+          options: {
+            // Show x-optional so optional fields display an "optional" indicator like "required"
+            showExtensions: ["x-optional"],
+          },
         },
       },
     ],
