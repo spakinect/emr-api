@@ -801,7 +801,7 @@
           "intake_answers": {
             "x-optional": true,
             "type": "array",
-            "description": "Submit intake question answers while creating the appointment for at-home visit patients so they can review and modify them if needed. Supported question and formats: - pregnant-breastfeeding-ivf (single choice): \"Yes\", \"No\", or \"N/A\" - allergies (yes/no list): { \"selected\": \"yes\"|\"no\", \"items\": [\"...\"] }; when selected is \"no\", items must be [] - medical-conditions (yes/no list): same format as allergies - medications (yes/no list): same format as allergies\n",
+            "description": "Submit intake question answers while creating the appointment for at-home visit patients so they can review and modify them if needed.\n\nSupported question codes:\n- pregnant-breastfeeding-ivf (pregnancy/breastfeeding/IVF status)\n- medications\n- allergies\n- medical-conditions\n",
             "items": {
               "type": "object",
               "required": [
