@@ -82,11 +82,16 @@ paths:
                         selected: 'yes'
                         items:
                           - Penicillin
+                    - question: medical-conditions
+                      answer:
+                        selected: 'no'
+                        items: []
                     - question: medications
                       answer:
                         selected: 'yes'
                         items:
-                          - Botox (previous)
+                          - Aspirin
+                          - Vitamin D
       responses:
         '201':
           description: Appointment created successfully
@@ -604,9 +609,12 @@ components:
           description: >
             Optional. Submit intake question answers while creating the
             appointment for at-home visit patients so they can review and modify
-            them if needed. Supported question codes are
-            pregnant-breastfeeding-ivf (pregnancy, breastfeeding, IVF status),
-            medications, and allergies.
+            them if needed. Supported question codes and formats: -
+            pregnant-breastfeeding-ivf (single choice): "Yes", "No", or "N/A" -
+            allergies (yes/no list): { "selected": "yes"|"no", "items": ["..."]
+            }; when selected is "no", items must be [] - medical-conditions
+            (yes/no list): same format as allergies - medications (yes/no list):
+            same format as allergies
           items:
             type: object
             required:
@@ -616,14 +624,22 @@ components:
               question:
                 type: string
                 description: >
-                  The question_code that identifies the intake question.
-                  Examples: pregnant-breastfeeding-ivf, medications, allergies.
+                  The question_code. Supported: pregnant-breastfeeding-ivf,
+                  allergies, medical-conditions, medications.
               answer:
                 oneOf:
                   - type: string
-                    description: For single choice questions - the selected choice value
+                    description: >-
+                      For single choice (pregnant-breastfeeding-ivf). Must be
+                      "Yes", "No", or "N/A".
+                    enum:
+                      - 'Yes'
+                      - 'No'
+                      - N/A
                   - type: object
-                    description: For yes_no_list questions
+                    description: >-
+                      For yes_no_list (allergies, medical-conditions,
+                      medications). When selected is "no", items must be [].
                     required:
                       - selected
                       - items
@@ -635,9 +651,7 @@ components:
                           - 'no'
                       items:
                         type: array
-                        description: >-
-                          List of selected items (must be empty when selected is
-                          "no")
+                        description: List of items (must be empty when selected is "no")
                         items:
                           type: string
       additionalProperties: false
