@@ -25,8 +25,6 @@ tags:
     description: Operations for retrieving available medical treatments
   - name: InPerson
     description: Operations for creating and managing in-person intake visits
-  - name: Webhook
-    description: Operations for registering and managing webhook URLs for events.
   - name: Subscriptions
     description: Operations for managing location subscriptions
 paths:
