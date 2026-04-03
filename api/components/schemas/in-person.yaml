@@ -21,7 +21,7 @@ InPersonVisitCreationRequest:
           description: The patient's last name.
         dob:
           type: string
-          description: The patient's date of birth in MM-DD-YYYY format.
+          description: The patient's date of birth in MM/DD/YYYY format.
           example: "10/27/1990"
     location_id:
       type: string
@@ -36,20 +36,73 @@ InPersonVisitCreationRequest:
       example:
         - Botox Injection
         - Dermal Filler
+    intake_answers:
+      x-optional: true
+      type: array
+      description: |
+        Optional. Submit intake question answers while creating the visit so the
+        patient sees them pre-filled when they open the intake form.
+
+        Supported question codes:
+        - pregnant-breastfeeding-ivf (pregnancy/breastfeeding/IVF status)
+        - medications
+        - allergies
+        - medical-conditions
+      items:
+        type: object
+        required:
+          - question
+          - answer
+        properties:
+          question:
+            type: string
+            description: >
+              The question_code of the intake question. Supported values:
+              pregnant-breastfeeding-ivf, allergies, medical-conditions, medications.
+          answer:
+            oneOf:
+              - type: string
+                description: For single choice questions (e.g. pregnant-breastfeeding-ivf). Must be "Yes", "No", or "N/A".
+                enum:
+                  - Yes
+                  - No
+                  - N/A
+              - type: object
+                description: For yes_no_list questions (allergies, medical-conditions, medications). When selected is "no", items must be [].
+                required:
+                  - selected
+                  - items
+                properties:
+                  selected:
+                    type: string
+                    enum:
+                      - yes
+                      - no
+                  items:
+                    type: array
+                    description: List of items (must be empty when selected is "no").
+                    items:
+                      type: string
+  additionalProperties: false
 
 InPersonVisitCreationResponse:
   type: object
   title: In-person Visit Creation Response
+  required:
+    - success
+    - visit_id
+    - visit_link
   properties:
     success:
       type: boolean
       description: Indicates if the operation was successful.
-    gfe_id:
+    visit_id:
       type: string
       description: The unique ID of the newly created visit.
-      example: gfe123
+      example: gfe_abc123xyz789
     visit_link:
       type: string
       format: uri
       description: A direct URL to the visit intake form.
-      example: https://client-test.spakinect.com/visit/gfe123
+      example: https://client.spakinect.com/visit/gfe_abc123xyz789
+  additionalProperties: false
