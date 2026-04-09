@@ -40,7 +40,7 @@ InPersonVisitCreationRequest:
       x-optional: true
       type: array
       description: |
-        Optional. Submit intake question answers while creating the visit so the
+        Submit intake question answers while creating the visit so the
         patient sees them pre-filled when they open the intake form.
 
         Supported question codes:
