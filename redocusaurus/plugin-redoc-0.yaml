@@ -988,21 +988,14 @@ components:
         intake_answers:
           x-optional: true
           type: array
-          description: >
-            Optional. Submit intake question answers while creating the visit so
-            the
-
+          description: |
+            Submit intake question answers while creating the visit so the
             patient sees them pre-filled when they open the intake form.
 
-
             Supported question codes:
-
             - pregnant-breastfeeding-ivf (pregnancy/breastfeeding/IVF status)
-
             - medications
-
             - allergies
-
             - medical-conditions
           items:
             type: object

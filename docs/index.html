@@ -6,8 +6,8 @@
 <title data-rh="true">Spakinect EMR Integration API | EMR API Documentation</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://spakinect.github.io/emr-api/docs"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="Spakinect EMR Integration API | EMR API Documentation"><meta data-rh="true" name="description" content="API for External Electronic Medical Record (EMR) systems to integrate with Spakinect telemedicine platform. Provides endpoints for managing appointments, retrieving treatments, and checking visit statuses.
 "><meta data-rh="true" property="og:description" content="API for External Electronic Medical Record (EMR) systems to integrate with Spakinect telemedicine platform. Provides endpoints for managing appointments, retrieving treatments, and checking visit statuses.
 "><link data-rh="true" rel="icon" href="/emr-api/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://spakinect.github.io/emr-api/docs"><link data-rh="true" rel="alternate" href="https://spakinect.github.io/emr-api/docs" hreflang="en"><link data-rh="true" rel="alternate" href="https://spakinect.github.io/emr-api/docs" hreflang="x-default"><link rel="stylesheet" href="/emr-api/assets/css/styles.b06e8b24.css">
-<script src="/emr-api/assets/js/runtime~main.84b1d76a.js" defer="defer"></script>
-<script src="/emr-api/assets/js/main.fc70423d.js" defer="defer"></script>
+<script src="/emr-api/assets/js/runtime~main.6a6a23c8.js" defer="defer"></script>
+<script src="/emr-api/assets/js/main.9fcef030.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -201,7 +201,7 @@ treatments when type=favorites and location_id are provided.</p>
 " class="sc-iKGpAq sc-cCYyou dAlgQi jbxYTj"><p>The ID of the location where the visit will take place.</p>
 </div></div></div></td></tr><tr class=""><td kind="field" title="requested_treatments" class="sc-hAtEya sc-fGFwA-d kwrESn cfHcjR"><span class="sc-ieZDjf drdoJv"></span><span class="property-name">requested_treatments</span><div class="sc-gUrTyB sc-eKYjSU jDrdHm kcEsWe">required</div></td><td class="sc-blLsxE dNcdpr"><div><div><span class="sc-gUrTyB sc-kZGvTq jDrdHm kEJAwN">Array of </span><span class="sc-gUrTyB sc-iMfspz jDrdHm liwdql">strings</span><span> <span class="sc-gUrTyB sc-cmEaii jDrdHm buVBbH"> <!-- -->non-empty<!-- --> </span></span></div> <div><div html="&lt;p&gt;A non-empty list of treatment names requested for the visit.&lt;/p&gt;
 " class="sc-iKGpAq sc-cCYyou dAlgQi jbxYTj"><p>A non-empty list of treatment names requested for the visit.</p>
-</div></div></div></td></tr><tr class="last"><td class="sc-hAtEya sc-fGFwA-d sc-jhSXcs kwrESn cfHcjR hJPWzJ" kind="field" title="intake_answers"><span class="sc-ieZDjf drdoJv"></span><button aria-label="expand intake_answers"><span class="property-name">intake_answers</span><svg class="sc-fbJfz gKdpge" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button></td><td class="sc-blLsxE dNcdpr"><div><div><span class="sc-gUrTyB sc-kZGvTq jDrdHm kEJAwN">Array of </span><span class="sc-gUrTyB sc-iMfspz jDrdHm liwdql">objects</span></div> <div class="sc-iKGpAq sc-cCYyou sc-UxxwK dAlgQi ckfpUR hLPeZr"><span class="sc-gUrTyB jDrdHm"> <!-- -->optional<!-- -->: </span> <span class="sc-gUrTyB sc-ldFCYc sc-gHyekH jDrdHm hfoltr">true</span></div><div><div html="&lt;p&gt;Optional. Submit intake question answers while creating the visit so the
+</div></div></div></td></tr><tr class="last"><td class="sc-hAtEya sc-fGFwA-d sc-jhSXcs kwrESn cfHcjR hJPWzJ" kind="field" title="intake_answers"><span class="sc-ieZDjf drdoJv"></span><button aria-label="expand intake_answers"><span class="property-name">intake_answers</span><svg class="sc-fbJfz gKdpge" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0" aria-hidden="true"><polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon></svg></button></td><td class="sc-blLsxE dNcdpr"><div><div><span class="sc-gUrTyB sc-kZGvTq jDrdHm kEJAwN">Array of </span><span class="sc-gUrTyB sc-iMfspz jDrdHm liwdql">objects</span></div> <div class="sc-iKGpAq sc-cCYyou sc-UxxwK dAlgQi ckfpUR hLPeZr"><span class="sc-gUrTyB jDrdHm"> <!-- -->optional<!-- -->: </span> <span class="sc-gUrTyB sc-ldFCYc sc-gHyekH jDrdHm hfoltr">true</span></div><div><div html="&lt;p&gt;Submit intake question answers while creating the visit so the
 patient sees them pre-filled when they open the intake form.&lt;/p&gt;
 &lt;p&gt;Supported question codes:&lt;/p&gt;
 &lt;ul&gt;
@@ -210,7 +210,7 @@ patient sees them pre-filled when they open the intake form.&lt;/p&gt;
 &lt;li&gt;allergies&lt;/li&gt;
 &lt;li&gt;medical-conditions&lt;/li&gt;
 &lt;/ul&gt;
-" class="sc-iKGpAq sc-cCYyou dAlgQi jbxYTj"><p>Optional. Submit intake question answers while creating the visit so the
+" class="sc-iKGpAq sc-cCYyou dAlgQi jbxYTj"><p>Submit intake question answers while creating the visit so the
 patient sees them pre-filled when they open the intake form.</p>
 <p>Supported question codes:</p>
 <ul>
